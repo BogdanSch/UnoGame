@@ -62,7 +62,7 @@ namespace UnoLogic
             }
             Deck.Full();
             Deck.Shuffle();
-            Deck.CutTo(56);
+            Deck.CutTo(46);
         }
         public void Deal()
         {
@@ -110,7 +110,7 @@ namespace UnoLogic
             else if (cardToTurn.Figure == CardFigure.DoubleCards && Deck.Count > 0)
             {
                 GetNewActivePlayer();
-                ActivePlayer.Hand.Add(Table.Deal(2));
+                ActivePlayer.Hand.Add(Deck.Deal(2));
             }
             else if (cardToTurn.Figure == CardFigure.Switcher)
             {
