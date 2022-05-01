@@ -61,8 +61,8 @@ namespace UnoLogic
                 player.IsInGame = true;
             }
             Deck.Full();
-            Deck.CutTo(56);
             Deck.Shuffle();
+            Deck.CutTo(56);
         }
         public void Deal()
         {
@@ -128,7 +128,7 @@ namespace UnoLogic
                     movesDiraction = MovesDiraction.Normal;
                     break;
                 default:
-                    throw new Exception("Unknow moves mode!");
+                    throw new Exception("Unknow moves diraction!");
             }
         }
 
@@ -180,6 +180,11 @@ namespace UnoLogic
 
         public void Pass()
         {
+            CheckPlayers();
+            CheckWinner();
+
+            mode = Mode.Pass;
+
             if (Deck.Count == 0)
             {
                 GetNewActivePlayer();
@@ -187,10 +192,6 @@ namespace UnoLogic
                 return;
             }
 
-            CheckPlayers();
-            CheckWinner();
-
-            mode = Mode.Pass;
             ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
             GetNewActivePlayer();
             ShowState();
@@ -240,7 +241,7 @@ namespace UnoLogic
         private Player PreviousPlayer(Player player)
         {
             Player applicant = Players[0] == player ? Players[Players.Count - 1] : Players[Players.IndexOf(player) - 1];
-            if (!applicant.IsInGame) return NextPlayer(applicant);
+            if (!applicant.IsInGame) return PreviousPlayer(applicant);
             return applicant;
         }
     }
