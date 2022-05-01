@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnoGame", "UnoGame\UnoGame.csproj", "{1A2345BA-48E0-442D-AB21-611442EEFA2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardModel", "CardModel\CardModel.csproj", "{E0709C54-F8C8-4739-AF1F-B36668856BD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnoLogic", "UnoLogic\UnoLogic.csproj", "{998A8389-AB6F-4125-8269-FBFC36E8FE92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicCardsInfrastructure", "GraphicCardsInfrastructure\GraphicCardsInfrastructure.csproj", "{ADF659DC-ADD4-4BB1-A040-C22FC3BBABCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A2345BA-48E0-442D-AB21-611442EEFA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2345BA-48E0-442D-AB21-611442EEFA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2345BA-48E0-442D-AB21-611442EEFA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2345BA-48E0-442D-AB21-611442EEFA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0709C54-F8C8-4739-AF1F-B36668856BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0709C54-F8C8-4739-AF1F-B36668856BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0709C54-F8C8-4739-AF1F-B36668856BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0709C54-F8C8-4739-AF1F-B36668856BD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{998A8389-AB6F-4125-8269-FBFC36E8FE92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998A8389-AB6F-4125-8269-FBFC36E8FE92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998A8389-AB6F-4125-8269-FBFC36E8FE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998A8389-AB6F-4125-8269-FBFC36E8FE92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF659DC-ADD4-4BB1-A040-C22FC3BBABCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF659DC-ADD4-4BB1-A040-C22FC3BBABCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF659DC-ADD4-4BB1-A040-C22FC3BBABCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF659DC-ADD4-4BB1-A040-C22FC3BBABCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91A008CA-964B-4CA4-84E3-0F22FA83D0F6}
+	EndGlobalSection
+EndGlobal
