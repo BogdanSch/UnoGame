@@ -58,6 +58,10 @@ namespace UnoGame
                 return;
             }
             lInfo.Text = $"{Game.ResultInfo}... {Game.StateInfo}";
+
+            string action = Game.GetPossibleActions();
+
+            bBluff.Enabled = action.Contains("Bluff") && !Game.IsGameOver;
         }
         private void ShowOrHide(CardSet set, bool isOpen)
         {

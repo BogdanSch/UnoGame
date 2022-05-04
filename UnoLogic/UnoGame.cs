@@ -41,6 +41,12 @@ namespace UnoLogic
                 }
             }
         }
+        public string GetPossibleActions()
+        {
+            if (Table.LastCard.Color == CardColor.Black)
+                return "Bluff";
+            return "";
+        }
 
         private Mode mode;
         private MovesDiraction movesDiraction = MovesDiraction.Normal;
@@ -216,7 +222,7 @@ namespace UnoLogic
         }
         private bool IsBeat(Card front, Card back)
         {
-            return front.Color == back.Color || front.Figure == back.Figure;
+            return front.Color == back.Color || front.Figure == back.Figure || front.Color == CardColor.Black;
         }
         private void GetNewActivePlayer()
         {

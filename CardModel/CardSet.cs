@@ -19,7 +19,7 @@ namespace CardModel
             set => Cards[i] = value;
         }
 
-        public static readonly Random rnd = new Random();
+        private static readonly Random rnd = new Random();
 
         public CardSet(List<Card> cards)
         {
@@ -91,6 +91,25 @@ namespace CardModel
             {
                 foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
                 {
+                    if(color == CardColor.Black)
+                    {
+                        int chance = rnd.Next(0, 1);
+                        switch (chance)
+                        {   
+                            case 0:
+                                continue;
+                            case 1:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if(color == CardColor.Black || figure == CardFigure.SquadCards || figure == CardFigure.ColorSwitcher)
+                    {
+                        int randomFigure = rnd.Next((int)CardFigure.ColorSwitcher, (int)CardFigure.SquadCards);
+                        Add(GetCard(CardColor.Black, (CardFigure)randomFigure));
+                        continue;
+                    }
                     Add(GetCard(color, figure));
                 }
             }

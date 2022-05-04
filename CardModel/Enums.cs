@@ -12,12 +12,12 @@ namespace CardModel
         Green,
         Blue,
         Yellow,
-        //Black
+        Black
     }
     public enum CardFigure
     {
         Zero = 0,
-        One,
+        One = 1,
         Twoo,
         Three,
         Four,
@@ -29,5 +29,7 @@ namespace CardModel
         Block,
         Switcher,
         DoubleCards,
+        ColorSwitcher,
+        SquadCards
     }
 }
