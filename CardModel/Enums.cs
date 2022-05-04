@@ -17,7 +17,7 @@ namespace CardModel
     public enum CardFigure
     {
         Zero = 0,
-        One = 1,
+        One,
         Twoo,
         Three,
         Four,

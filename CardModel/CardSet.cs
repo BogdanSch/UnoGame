@@ -91,20 +91,12 @@ namespace CardModel
             {
                 foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
                 {
-                    if(color == CardColor.Black)
+                    if (color == CardColor.Black)
                     {
-                        int chance = rnd.Next(0, 1);
-                        switch (chance)
-                        {   
-                            case 0:
-                                continue;
-                            case 1:
-                                break;
-                            default:
-                                break;
-                        }
+                        int chance = rnd.Next(0, 100);
+                        if (chance > 0) continue;
                     }
-                    if(color == CardColor.Black || figure == CardFigure.SquadCards || figure == CardFigure.ColorSwitcher)
+                    if (color == CardColor.Black || figure == CardFigure.SquadCards || figure == CardFigure.ColorSwitcher)
                     {
                         int randomFigure = rnd.Next((int)CardFigure.ColorSwitcher, (int)CardFigure.SquadCards);
                         Add(GetCard(CardColor.Black, (CardFigure)randomFigure));

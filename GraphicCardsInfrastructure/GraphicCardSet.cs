@@ -33,7 +33,10 @@ namespace GraphicCardInfrasctructure
             {
                 GraphicCard gCard = c as GraphicCard;
                 if(gCard != null)
+                {
                     Panel.Controls.Add(gCard.CardPicture);
+                    gCard.Show();
+                }
             }
         }
         public override void Remove(Card card)

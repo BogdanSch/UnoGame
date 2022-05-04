@@ -47,16 +47,19 @@ namespace UnoLogic
                 return "Bluff";
             return "";
         }
+        public CardColor ChosedColor { get; set; }
 
         private Mode mode;
         private MovesDiraction movesDiraction = MovesDiraction.Normal;
-        private Action ShowState;
+        private Action showState;
+        private Action changeColor;
         private int maxCountCards = 6;
 
-        public UnoGame(List<Player> players, Action showState)
+        public UnoGame(List<Player> players, Action showState, Action changeColor)
         {
             Players = players;
-            ShowState = showState;
+            this.showState = showState;
+            this.changeColor = changeColor;
             Table = new CardSet();
             Deck = new CardSet();
         }
@@ -85,7 +88,7 @@ namespace UnoLogic
             ActivePlayer = WhoFirst();
             Table.Add(Deck.Pull(Deck.Count - 1));
 
-            ShowState();
+            showState();
         }
         public void Turn(Card cardToTurn)
         {
@@ -104,24 +107,39 @@ namespace UnoLogic
                 GetNewActivePlayer();
 
                 ResultInfo = "";
-                ShowState();
+                showState();
             }
         }
         private void CheckCardSpecialPower(Card cardToTurn)
         {
-            if (cardToTurn.Figure == CardFigure.Block)
+            switch (cardToTurn.Figure)
             {
-                GetNewActivePlayer();
+                case CardFigure.Block:
+                    GetNewActivePlayer();
+                    break;
+                case CardFigure.Switcher:
+                    SwitchMovesMode();
+                    break;
+                case CardFigure.DoubleCards:
+                    if (Deck.Count > 0)
+                    {
+                        GetNewActivePlayer();
+                        ActivePlayer.Hand.Add(Deck.Deal(2));
+                    }
+                    break;
+                case CardFigure.ColorSwitcher:
+                    ChosedColor = GetRandomCardColor();
+                    break;
+                case CardFigure.SquadCards:
+                    ChosedColor = GetRandomCardColor();
+                    break;
             }
-            else if (cardToTurn.Figure == CardFigure.DoubleCards && Deck.Count > 0)
-            {
-                GetNewActivePlayer();
-                ActivePlayer.Hand.Add(Deck.Deal(2));
-            }
-            else if (cardToTurn.Figure == CardFigure.Switcher)
-            {
-                SwitchMovesMode();
-            }
+        }
+        private CardColor GetRandomCardColor()
+        {
+            int randomColor = rnd.Next(0, (int)CardColor.Black);
+            changeColor();
+            return (CardColor)randomColor;
         }
         private void SwitchMovesMode()
         {
@@ -137,7 +155,6 @@ namespace UnoLogic
                     throw new Exception("Unknow moves diraction!");
             }
         }
-
         private void CheckPlayers()
         {
             for (int i = 0; i < Players.Count; i++)
@@ -150,7 +167,7 @@ namespace UnoLogic
         {
             int playersInGame = Players.Count(p => p.IsInGame);
 
-            if (!ContainsCardToTurn())
+            if (!PlayersContainsCardToTurn())
             {
                 IsGameOver = true;
                 ResultInfo = "There is a draw";
@@ -165,25 +182,28 @@ namespace UnoLogic
                 IsGameOver = true;
                 ResultInfo = "There is a draw";
             }
-            ShowState();
+            showState();
         }
-
-        private bool ContainsCardToTurn()
+        private bool PlayersContainsCardToTurn()
         {
             List<Player> leftPlayers = Players.FindAll(p => p.IsInGame && p.Hand.Count > 0);
             int count = 0;
 
             foreach (Player player in leftPlayers)
             {
-                if (!player.Hand.Contains(Deck.LastCard))
+                foreach (Card c in player.Hand)
                 {
-                    count++;
+                    if (c.Color == Deck.LastCard.Color || c.Figure == Deck.LastCard.Figure || c.Color == CardColor.Black)
+                    {
+                        return true;
+                    }
                 }
+                count++;
             }
+
             if (count == leftPlayers.Count) return true;
             return false;
         }
-
         public void Pass()
         {
             CheckPlayers();
@@ -194,13 +214,13 @@ namespace UnoLogic
             if (Deck.Count == 0)
             {
                 GetNewActivePlayer();
-                ShowState();
+                showState();
                 return;
             }
 
             ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
             GetNewActivePlayer();
-            ShowState();
+            showState();
         }
         public void Bluff()
         {
@@ -222,7 +242,10 @@ namespace UnoLogic
         }
         private bool IsBeat(Card front, Card back)
         {
-            return front.Color == back.Color || front.Figure == back.Figure || front.Color == CardColor.Black;
+            return front.Color == back.Color ||
+                front.Figure == back.Figure ||
+                front.Color == CardColor.Black; //||
+                //front.Color == ChosedColor;
         }
         private void GetNewActivePlayer()
         {

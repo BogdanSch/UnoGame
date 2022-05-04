@@ -36,13 +36,19 @@ namespace UnoGame
                 new Player("Yana", new GraphicCardSet(pPlr4)),
             };
 
-            Game = new UnoLogic.UnoGame(players, ShowState);
+            Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
             Game.Deck = new GraphicCardSet(pDeck);
             Game.Table = new GraphicCardSet(pTable);
             Game.Prepare();
             BindPictureBoxes();
             Game.Deal();
         }
+
+        private void ChangeColor()
+        {
+
+        }
+
         private void ShowState()
         {
             ShowOrHide(Game.Table, true);
@@ -51,7 +57,6 @@ namespace UnoGame
             {
                 ShowOrHide(player.Hand, player == Game.ActivePlayer);
             }
-
             if (Game.IsGameOver) 
             {
                 lInfo.Text = $"{Game.ResultInfo}";
