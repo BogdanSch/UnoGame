@@ -46,6 +46,7 @@ namespace UnoGame
 
         private CardColor ChangeColor()
         {
+            picColor.BackColor = Color.Green;
             return CardColor.Green;
         }
         private void ShowState()
