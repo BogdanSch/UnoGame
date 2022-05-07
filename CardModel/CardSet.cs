@@ -89,21 +89,19 @@ namespace CardModel
         {
             foreach (CardColor color in Enum.GetValues(typeof(CardColor)))
             {
+                if (color == CardColor.Black)
+                    continue;
                 foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
                 {
-                    if (color == CardColor.Black)
-                    {
-                        int chance = rnd.Next(0, 100);
-                        if (chance > 0) continue;
-                    }
-                    if (color == CardColor.Black || figure == CardFigure.SquadCards || figure == CardFigure.ColorSwitcher)
-                    {
-                        int randomFigure = rnd.Next((int)CardFigure.ColorSwitcher, (int)CardFigure.SquadCards);
-                        Add(GetCard(CardColor.Black, (CardFigure)randomFigure));
-                        continue;
-                    }
+                    //убрать фигуры черных
                     Add(GetCard(color, figure));
                 }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                //исправить
+                Add(GetCard(CardColor.Black, CardFigure.Switcher));
+
             }
         }
         public virtual Card GetCard(CardColor color, CardFigure figure)

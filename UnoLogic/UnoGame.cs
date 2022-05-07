@@ -52,7 +52,7 @@ namespace UnoLogic
         private Mode mode;
         private MovesDiraction movesDiraction = MovesDiraction.Normal;
         private Action showState;
-        private Action changeColor;
+        private Func<CardColor> changeColor;
         private int maxCountCards = 6;
 
         public UnoGame(List<Player> players, Action showState, Action changeColor)
@@ -127,10 +127,11 @@ namespace UnoLogic
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
                     break;
-                case CardFigure.ColorSwitcher:
-                    ChosedColor = GetRandomCardColor();
+                    //как в кейс несколько значений
+                case CardFigure.ColorSwitcher, CardFigure.SquadCards:
+                    ChosedColor = changeColor();
                     break;
-                case CardFigure.SquadCards:
+                case :
                     ChosedColor = GetRandomCardColor();
                     break;
             }
