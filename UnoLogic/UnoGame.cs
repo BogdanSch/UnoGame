@@ -55,7 +55,7 @@ namespace UnoLogic
         private Func<CardColor> changeColor;
         private int maxCountCards = 6;
 
-        public UnoGame(List<Player> players, Action showState, Action changeColor)
+        public UnoGame(List<Player> players, Action showState, Func<CardColor> changeColor)
         {
             Players = players;
             this.showState = showState;
@@ -127,20 +127,16 @@ namespace UnoLogic
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
                     break;
-                    //как в кейс несколько значений
-                case CardFigure.ColorSwitcher, CardFigure.SquadCards:
+                //как в кейс несколько значений
+                case CardFigure.ColorSwitcher:
                     ChosedColor = changeColor();
                     break;
-                case :
-                    ChosedColor = GetRandomCardColor();
+                case CardFigure.SquadCards:
+                    ChosedColor = changeColor();
+                    GetNewActivePlayer();
+                    ActivePlayer.Hand.Add(Deck.Deal(4));
                     break;
             }
-        }
-        private CardColor GetRandomCardColor()
-        {
-            int randomColor = rnd.Next(0, (int)CardColor.Yellow);
-            changeColor();
-            return (CardColor)randomColor;
         }
         private void SwitchMovesMode()
         {

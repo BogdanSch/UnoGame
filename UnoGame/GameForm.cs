@@ -44,25 +44,9 @@ namespace UnoGame
             Game.Deal();
         }
 
-        private void ChangeColor()
+        private CardColor ChangeColor()
         {
-            switch (Game.ChosedColor)
-            {
-                case CardColor.Red:
-                    picColor.BackColor = Color.Red; 
-                    break;
-                case CardColor.Green:
-                    picColor.BackColor = Color.Green;
-                    break;
-                case CardColor.Blue:
-                    picColor.BackColor = Color.Blue;
-                    break;
-                case CardColor.Yellow:
-                    picColor.BackColor = Color.Yellow;
-                    break;
-                default:
-                    throw new Exception("Color is missing");
-            }
+            return CardColor.Green;
         }
         private void ShowState()
         {

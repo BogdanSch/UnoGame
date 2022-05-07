@@ -93,15 +93,18 @@ namespace CardModel
                     continue;
                 foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
                 {
-                    //убрать фигуры черных
+                    if (figure == CardFigure.SquadCards || figure == CardFigure.ColorSwitcher)
+                        continue;
                     Add(GetCard(color, figure));
                 }
             }
             for (int i = 0; i < 4; i++)
             {
-                //исправить
-                Add(GetCard(CardColor.Black, CardFigure.Switcher));
-
+                Add(GetCard(CardColor.Black, CardFigure.ColorSwitcher));
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                Add(GetCard(CardColor.Black, CardFigure.SquadCards));
             }
         }
         public virtual Card GetCard(CardColor color, CardFigure figure)
