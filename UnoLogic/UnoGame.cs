@@ -137,7 +137,7 @@ namespace UnoLogic
         }
         private CardColor GetRandomCardColor()
         {
-            int randomColor = rnd.Next(0, (int)CardColor.Black);
+            int randomColor = rnd.Next(0, (int)CardColor.Yellow);
             changeColor();
             return (CardColor)randomColor;
         }
@@ -244,8 +244,8 @@ namespace UnoLogic
         {
             return front.Color == back.Color ||
                 front.Figure == back.Figure ||
-                front.Color == CardColor.Black; //||
-                //front.Color == ChosedColor;
+                front.Color == CardColor.Black ||
+                front.Color == ChosedColor;
         }
         private void GetNewActivePlayer()
         {
