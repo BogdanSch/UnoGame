@@ -133,8 +133,8 @@ namespace UnoLogic
                     break;
                 case CardFigure.SquadCards:
                     ChosedColor = changeColor();
-                    //GetNewActivePlayer();
-                    //ActivePlayer.Hand.Add(Deck.Deal(4));
+                    GetNewActivePlayer();
+                    ActivePlayer.Hand.Add(Deck.Deal(4));
                     break;
             }
         }
@@ -216,6 +216,9 @@ namespace UnoLogic
             }
 
             ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
+
+            if (!Impossible(ActivePlayer.Hand.LastCard)) return;
+
             GetNewActivePlayer();
             showState();
         }
