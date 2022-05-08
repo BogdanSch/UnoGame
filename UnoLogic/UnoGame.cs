@@ -71,7 +71,7 @@ namespace UnoLogic
             }
             Deck.Full();
             Deck.Shuffle();
-            Deck.CutTo(46);
+            Deck.CutTo(42);
         }
         public void Deal()
         {
@@ -184,8 +184,6 @@ namespace UnoLogic
         private bool PlayersContainsCardToTurn()
         {
             List<Player> leftPlayers = Players.FindAll(p => p.IsInGame && p.Hand.Count > 0);
-            int count = 0;
-
             foreach (Player player in leftPlayers)
             {
                 foreach (Card c in player.Hand)
@@ -195,10 +193,8 @@ namespace UnoLogic
                         return true;
                     }
                 }
-                count++;
             }
 
-            if (count == leftPlayers.Count) return true;
             return false;
         }
         public void Pass()
@@ -208,7 +204,7 @@ namespace UnoLogic
 
             mode = Mode.Pass;
 
-            if (Deck.Count == 0)
+            if (Deck.Count <= 0)
             {
                 GetNewActivePlayer();
                 showState();
@@ -217,7 +213,11 @@ namespace UnoLogic
 
             ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
 
-            if (!Impossible(ActivePlayer.Hand.LastCard)) return;
+            if (!Impossible(ActivePlayer.Hand.LastCard))
+            {
+                showState();
+                return; 
+            }
 
             GetNewActivePlayer();
             showState();
