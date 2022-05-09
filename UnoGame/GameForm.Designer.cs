@@ -41,8 +41,8 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.pTools = new System.Windows.Forms.Panel();
             this.pColor = new System.Windows.Forms.Panel();
-            this.picColor = new System.Windows.Forms.PictureBox();
             this.lHintColor = new System.Windows.Forms.Label();
+            this.picColor = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbActiveCard)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.pTools.SuspendLayout();
@@ -53,17 +53,17 @@
             // pTable
             // 
             this.pTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pTable.Location = new System.Drawing.Point(324, 171);
+            this.pTable.Location = new System.Drawing.Point(324, 174);
             this.pTable.Name = "pTable";
-            this.pTable.Size = new System.Drawing.Size(315, 162);
+            this.pTable.Size = new System.Drawing.Size(315, 165);
             this.pTable.TabIndex = 0;
             // 
             // pPlr1
             // 
             this.pPlr1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pPlr1.Location = new System.Drawing.Point(3, 339);
+            this.pPlr1.Location = new System.Drawing.Point(3, 345);
             this.pPlr1.Name = "pPlr1";
-            this.pPlr1.Size = new System.Drawing.Size(315, 162);
+            this.pPlr1.Size = new System.Drawing.Size(315, 166);
             this.pPlr1.TabIndex = 1;
             // 
             // pPlr4
@@ -71,7 +71,7 @@
             this.pPlr4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr4.Location = new System.Drawing.Point(3, 3);
             this.pPlr4.Name = "pPlr4";
-            this.pPlr4.Size = new System.Drawing.Size(315, 162);
+            this.pPlr4.Size = new System.Drawing.Size(315, 165);
             this.pPlr4.TabIndex = 2;
             // 
             // pPlr3
@@ -79,23 +79,23 @@
             this.pPlr3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr3.Location = new System.Drawing.Point(645, 3);
             this.pPlr3.Name = "pPlr3";
-            this.pPlr3.Size = new System.Drawing.Size(315, 162);
+            this.pPlr3.Size = new System.Drawing.Size(315, 165);
             this.pPlr3.TabIndex = 3;
             // 
             // pPlr2
             // 
             this.pPlr2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pPlr2.Location = new System.Drawing.Point(645, 339);
+            this.pPlr2.Location = new System.Drawing.Point(645, 345);
             this.pPlr2.Name = "pPlr2";
-            this.pPlr2.Size = new System.Drawing.Size(315, 162);
+            this.pPlr2.Size = new System.Drawing.Size(315, 166);
             this.pPlr2.TabIndex = 4;
             // 
             // pDeck
             // 
             this.pDeck.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pDeck.Location = new System.Drawing.Point(3, 171);
+            this.pDeck.Location = new System.Drawing.Point(3, 174);
             this.pDeck.Name = "pDeck";
-            this.pDeck.Size = new System.Drawing.Size(315, 162);
+            this.pDeck.Size = new System.Drawing.Size(315, 165);
             this.pDeck.TabIndex = 1;
             // 
             // bPass
@@ -158,7 +158,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(963, 504);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(963, 514);
             this.tableLayoutPanel.TabIndex = 9;
             // 
             // pTools
@@ -167,9 +167,9 @@
             this.pTools.Controls.Add(this.bBluff);
             this.pTools.Controls.Add(this.lInfo);
             this.pTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pTools.Location = new System.Drawing.Point(645, 171);
+            this.pTools.Location = new System.Drawing.Point(645, 174);
             this.pTools.Name = "pTools";
-            this.pTools.Size = new System.Drawing.Size(315, 162);
+            this.pTools.Size = new System.Drawing.Size(315, 165);
             this.pTools.TabIndex = 5;
             // 
             // pColor
@@ -179,16 +179,8 @@
             this.pColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pColor.Location = new System.Drawing.Point(324, 3);
             this.pColor.Name = "pColor";
-            this.pColor.Size = new System.Drawing.Size(315, 162);
+            this.pColor.Size = new System.Drawing.Size(315, 165);
             this.pColor.TabIndex = 6;
-            // 
-            // picColor
-            // 
-            this.picColor.Location = new System.Drawing.Point(91, 56);
-            this.picColor.Name = "picColor";
-            this.picColor.Size = new System.Drawing.Size(112, 103);
-            this.picColor.TabIndex = 0;
-            this.picColor.TabStop = false;
             // 
             // lHintColor
             // 
@@ -200,11 +192,19 @@
             this.lHintColor.TabIndex = 1;
             this.lHintColor.Text = "Chosed color is :";
             // 
+            // picColor
+            // 
+            this.picColor.Location = new System.Drawing.Point(91, 56);
+            this.picColor.Name = "picColor";
+            this.picColor.Size = new System.Drawing.Size(112, 103);
+            this.picColor.TabIndex = 0;
+            this.picColor.TabStop = false;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 504);
+            this.ClientSize = new System.Drawing.Size(963, 514);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.pbActiveCard);
             this.Name = "GameForm";

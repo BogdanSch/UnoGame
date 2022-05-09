@@ -128,6 +128,11 @@ namespace UnoGame
         private void bPass_Click(object sender, EventArgs e)
         {
             Game.Pass();
+
+            foreach (GraphicCard card in Game.ActivePlayer.Hand)
+            {
+                card.Show();
+            }
         }
         private void bBluff_Click(object sender, EventArgs e)
         {
