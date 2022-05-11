@@ -45,8 +45,9 @@ namespace UnoLogic
         {
             if (Table.LastCard.Color == CardColor.Black)
                 return "Bluff";
-            return "";
+            return "Pass";
         }
+
         public CardColor ChosedColor { get; set; }
 
         private Mode mode;

@@ -45,7 +45,6 @@ namespace GraphicCardInfrasctructure
                 cardImages[c] = Image.FromFile($"{Application.StartupPath}\\images\\{c.Color} {c.Figure}.png");
             }
         }
-
         public void Show()
         {
             Opened = true;

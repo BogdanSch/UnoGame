@@ -129,10 +129,10 @@ namespace UnoGame
         {
             Game.Pass();
 
-            foreach (GraphicCard card in Game.ActivePlayer.Hand)
-            {
-                card.Show();
-            }
+            GraphicCardSet cards = Game.ActivePlayer.Hand as GraphicCardSet;
+
+            if (cards != null)
+                cards.Draw();
         }
         private void bBluff_Click(object sender, EventArgs e)
         {
