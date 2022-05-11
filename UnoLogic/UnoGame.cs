@@ -128,14 +128,16 @@ namespace UnoLogic
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
                     break;
-                //как в кейс несколько значений
                 case CardFigure.ColorSwitcher:
                     ChosedColor = changeColor();
                     break;
                 case CardFigure.SquadCards:
                     ChosedColor = changeColor();
-                    GetNewActivePlayer();
-                    ActivePlayer.Hand.Add(Deck.Deal(4));
+                    if(Deck.Count > 0)
+                    {
+                        GetNewActivePlayer();
+                        ActivePlayer.Hand.Add(Deck.Deal(4));
+                    }
                     break;
             }
         }
@@ -157,7 +159,7 @@ namespace UnoLogic
         {
             for (int i = 0; i < Players.Count; i++)
             {
-                if (Players[i].Hand.Count == 0)
+                if (Players[i].Hand.Count <= 0)
                     Players[i].IsInGame = false;
             }
         }
@@ -185,14 +187,14 @@ namespace UnoLogic
         private bool PlayersContainsCardToTurn()
         {
             List<Player> leftPlayers = Players.FindAll(p => p.IsInGame && p.Hand.Count > 0);
+
             foreach (Player player in leftPlayers)
             {
                 foreach (Card c in player.Hand)
                 {
-                    if (c.Color == Deck.LastCard.Color || c.Figure == Deck.LastCard.Figure || c.Color == CardColor.Black)
-                    {
-                        return true;
-                    }
+                    if(Deck.Count > 0)
+                        if (c.Color == Deck.LastCard.Color || c.Figure == Deck.LastCard.Figure || c.Color == CardColor.Black)
+                            return true;
                 }
             }
 
@@ -243,10 +245,13 @@ namespace UnoLogic
         }
         private bool IsBeat(Card front, Card back)
         {
+           if(Table.LastCard.Color == CardColor.Black)
+               return front.Color == back.Color ||
+                   front.Color == ChosedColor;
+
             return front.Color == back.Color ||
-                front.Figure == back.Figure ||
-                front.Color == CardColor.Black ||
-                front.Color == ChosedColor;
+                    front.Figure == back.Figure ||
+                    front.Color == CardColor.Black;
         }
         private void GetNewActivePlayer()
         {
