@@ -18,7 +18,7 @@ namespace CardModel
     {
         Zero = 0,
         One,
-        Twoo,
+        Two,
         Three,
         Four,
         Five,

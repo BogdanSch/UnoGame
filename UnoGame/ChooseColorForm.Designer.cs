@@ -98,10 +98,11 @@
             this.Controls.Add(this.pYellow);
             this.Controls.Add(this.pGreen);
             this.Controls.Add(this.pRed);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ChooseColorForm";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Choose Color";
             ((System.ComponentModel.ISupportInitialize)(this.pRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pGreen)).EndInit();

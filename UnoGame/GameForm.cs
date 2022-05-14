@@ -46,13 +46,14 @@ namespace UnoGame
 
         private CardColor ChangeColor()
         {
-            //добавить новую форму, открыть ее в фиалоговом режиме. Там четыре метки разного цвета.
+            //добавить новую форму, открыть ее в диалоговом режиме. Там четыре метки разного цвета.
             //в зависимости от того, на которой клацнут, публичное свойство этой формы станет таким цветом, как надо
             //потом тут можно будет не равно колор грин, а равно «имя формы»-точка-название этого свойства.
+            CardColor targetColor;
             ChooseColorForm form = new ChooseColorForm();
             form.Show();
 
-            CardColor targetColor = form.ChosedColor;
+            targetColor = form.ChosedColor;
             picColor.BackColor = form.PicColor;
 
             return targetColor;
