@@ -54,9 +54,9 @@ namespace UnoLogic
         private MovesDiraction movesDiraction = MovesDiraction.Normal;
         private Action showState;
         private Func<CardColor> changeColor;
-        private int maxCountCards = 6;
+        private readonly int maxCountCards = 6;
 
-        public UnoGame(List<Player> players, Action showState, Func<CardColor> changeColor)
+        public UnoGame(List<Player> players, Action showState,  Func<CardColor> changeColor)
         {
             Players = players;
             this.showState = showState;
