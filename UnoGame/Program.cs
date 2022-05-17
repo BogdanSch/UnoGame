@@ -17,7 +17,7 @@ namespace UnoGame
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StartUpForm());
+            Application.Run(new GameForm());
         }
     }
 }

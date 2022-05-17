@@ -35,7 +35,6 @@ namespace GraphicCardInfrasctructure
                 if(gCard != null)
                 {
                     Panel.Controls.Add(gCard.CardPicture);
-                    gCard.Show();
                 }
             }
         }

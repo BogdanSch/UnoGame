@@ -30,10 +30,14 @@ namespace UnoGame
         {
             List<Player> players = new List<Player>()
             {
-                new Player(StartUpForm.playersNames[0], new GraphicCardSet(pPlr1)),
-                new Player(StartUpForm.playersNames[1], new GraphicCardSet(pPlr2)),
-                new Player(StartUpForm.playersNames[2], new GraphicCardSet(pPlr3)),
-                new Player(StartUpForm.playersNames[3], new GraphicCardSet(pPlr4)),
+                //new Player(StartUpForm.playersNames[0], new GraphicCardSet(pPlr1)),
+                //new Player(StartUpForm.playersNames[1], new GraphicCardSet(pPlr2)),
+                //new Player(StartUpForm.playersNames[2], new GraphicCardSet(pPlr3)),
+                //new Player(StartUpForm.playersNames[3], new GraphicCardSet(pPlr4)),
+                new Player("Bogdan", new GraphicCardSet(pPlr1)),
+                new Player("Igor", new GraphicCardSet(pPlr2)),
+                new Player("Alex", new GraphicCardSet(pPlr3)),
+                new Player("Yana", new GraphicCardSet(pPlr4)),
             };
 
             Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
@@ -46,9 +50,6 @@ namespace UnoGame
 
         private CardColor ChangeColor()
         {
-            //добавить новую форму, открыть ее в диалоговом режиме. Там четыре метки разного цвета.
-            //в зависимости от того, на которой клацнут, публичное свойство этой формы станет таким цветом, как надо
-            //потом тут можно будет не равно колор грин, а равно «имя формы»-точка-название этого свойства.
             CardColor targetColor;
 
             ChooseColorForm form = new ChooseColorForm();

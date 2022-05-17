@@ -11,7 +11,8 @@ namespace UnoLogic
         enum Mode
         {
             Move,
-            Pass
+            Pass,
+            Bluff
         }
         enum MovesDiraction
         {
@@ -36,6 +37,8 @@ namespace UnoLogic
                         return $"{ActivePlayer.Name}!! This is your turn";
                     case Mode.Pass:
                         return $"{PreviousPlayer(ActivePlayer).Name} is passing";
+                    case Mode.Bluff:
+                        return $"{PreviousPlayer(ActivePlayer).Name} has bluffed";
                     default:
                         throw new Exception("We don't know this game mode!");
                 }
@@ -72,7 +75,7 @@ namespace UnoLogic
             }
             Deck.Full();
             Deck.Shuffle();
-            Deck.CutTo(42);
+            Deck.CutTo(46);
         }
         public void Deal()
         {
@@ -170,7 +173,7 @@ namespace UnoLogic
             if (!PlayersContainsCardToTurn())
             {
                 IsGameOver = true;
-                ResultInfo = "There is a draw";
+                ResultInfo = "No one has a card to do a turn!";
             }
             if (playersInGame == 1)
             {
@@ -207,28 +210,65 @@ namespace UnoLogic
 
             mode = Mode.Pass;
 
-            if (Deck.Count <= 0)
+            if(Deck.Count > 0)
+            {
+                ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
+                ActivePlayer.Hand.Sort();
+
+                if (!Impossible(ActivePlayer.Hand.LastCard))
+                {
+                    showState();
+                    return;
+                }
+
+                GetNewActivePlayer();
+                showState();
+            }
+            else
             {
                 GetNewActivePlayer();
                 showState();
-                return;
             }
-
-            ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
-
-            if (!Impossible(ActivePlayer.Hand.LastCard))
-            {
-                showState();
-                return; 
-            }
-
-            GetNewActivePlayer();
-            showState();
         }
         public void Bluff()
         {
+            Player bluffedPlayer;
 
+            if (Table.LastCard.Figure == CardFigure.SquadCards)
+                bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
+            else bluffedPlayer = PreviousPlayer(ActivePlayer);
+
+            Card targetCard = Table[Table.Count - 2];
+
+            if(IsBluff(bluffedPlayer, targetCard))
+            {
+                mode = Mode.Bluff;
+                if (Deck.Count > 2) 
+                    bluffedPlayer.Hand.Add(Deck.Deal(2));
+                bluffedPlayer.Hand.Sort();
+                showState();
+            }
+            else
+            {
+                if (Deck.Count > 2)
+                { 
+                    ActivePlayer.Hand.Add(Deck.Deal(2));
+                    ActivePlayer.Hand.Sort();
+                }
+                GetNewActivePlayer();
+                showState();
+            }
         }
+        private bool IsBluff(Player bluffedPlayer, Card targetCard)
+        {
+            foreach (Card card in bluffedPlayer.Hand)
+            {
+                if (card.Color == targetCard.Color || card.Figure == targetCard.Figure)
+                    return true;
+            }
+            return false;
+        }
+
         private void ClearTable()
         {
             Table.CutTo(Table.Count - 1);

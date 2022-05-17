@@ -18,6 +18,7 @@ namespace UnoGame
         {
             InitializeComponent();
         }
+
         private void ColorPictureClick(object sender, EventArgs e)
         {
             PictureBox pictureBox = sender as PictureBox;
