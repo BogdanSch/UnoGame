@@ -16,7 +16,7 @@ namespace UnoGame
     public partial class GameForm : Form
     {
         GraphicCard ActiveCard;
-        UnoLogic.UnoGame Game;
+        public static UnoLogic.UnoGame Game;
         Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
 
         public GameForm()
@@ -52,11 +52,12 @@ namespace UnoGame
             CardColor targetColor;
 
             ChooseColorForm form = new ChooseColorForm();
-            form.Show();
+            form.ShowDialog();
 
             targetColor = form.ChosedColor;
             picColor.BackColor = form.PicColor;
 
+            form.Close();
             return targetColor;
         }
         private void ShowState()
@@ -81,6 +82,7 @@ namespace UnoGame
         private void ShowOrHide(CardSet set, bool isOpen)
         {
             GraphicCardSet gSet = set as GraphicCardSet;
+
             if (gSet != null)
             {
                 if (isOpen)
