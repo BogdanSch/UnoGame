@@ -235,18 +235,14 @@ namespace UnoLogic
         }
         public void Bluff()
         {
-            Player bluffedPlayer;
-
-            if (Table.LastCard.Figure == CardFigure.SquadCards)
-                bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
-            else bluffedPlayer = PreviousPlayer(ActivePlayer);
+            Player bluffedPlayer = GetBluffedPlayer();
 
             Card targetCard = Table[Table.Count - 2];
 
-            if(IsBluff(bluffedPlayer, targetCard))
+            if (IsBluff(bluffedPlayer, targetCard))
             {
                 mode = Mode.Bluff;
-                if (Deck.Count > 2) 
+                if (Deck.Count > 2)
                     bluffedPlayer.Hand.Add(Deck.Deal(2));
                 bluffedPlayer.Hand.Sort();
                 showState();
@@ -254,7 +250,7 @@ namespace UnoLogic
             else
             {
                 if (Deck.Count > 2)
-                { 
+                {
                     ActivePlayer.Hand.Add(Deck.Deal(2));
                     ActivePlayer.Hand.Sort();
                 }
@@ -311,6 +307,27 @@ namespace UnoLogic
                 default:
                     throw new Exception("We can't find new player!");
             }
+        }
+        private Player GetBluffedPlayer()
+        {
+            Player bluffedPlayer;
+            switch (movesDiraction)
+            {
+                case MovesDiraction.Normal:
+                    if (Table.LastCard.Figure == CardFigure.SquadCards)
+                        bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
+                    else bluffedPlayer = PreviousPlayer(ActivePlayer);
+                    break;
+                case MovesDiraction.Inverted:
+                    if (Table.LastCard.Figure == CardFigure.SquadCards)
+                        bluffedPlayer = NextPlayer(NextPlayer(ActivePlayer));
+                    else bluffedPlayer = PreviousPlayer(ActivePlayer);
+                    break;
+                default:
+                    throw new Exception("Game mode isn't found");
+            }
+
+            return bluffedPlayer;
         }
         private Player NextPlayer(Player player)
         {
