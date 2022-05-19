@@ -79,6 +79,7 @@ namespace UnoGame
             string action = Game.GetPossibleActions();
 
             bBluff.Enabled = action.Contains("Bluff") && !Game.IsGameOver;
+            bUno.Enabled = action.Contains("Uno") && !Game.IsGameOver;
         }
         private void ShowOrHide(CardSet set, bool isOpen)
         {
@@ -141,15 +142,14 @@ namespace UnoGame
         private void bPass_Click(object sender, EventArgs e)
         {
             Game.Pass();
-
-            GraphicCardSet cards = Game.ActivePlayer.Hand as GraphicCardSet;
-
-            if (cards != null)
-                cards.Draw();
         }
         private void bBluff_Click(object sender, EventArgs e)
         {
             Game.Bluff();
+        }
+        private void bUno_Click(object sender, EventArgs e)
+        {
+            Game.Uno();
         }
         private void UnoGameForm_Closing(object sender, FormClosingEventArgs e)
         {

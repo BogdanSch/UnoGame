@@ -38,7 +38,7 @@ namespace UnoLogic
                     case Mode.Pass:
                         return $"{PreviousPlayer(ActivePlayer).Name} is passing";
                     case Mode.Bluff:
-                        return $"{PreviousPlayer(ActivePlayer).Name} has bluffed";
+                        return $"{PreviousPlayer(PreviousPlayer(ActivePlayer)).Name} has bluffed";
                     default:
                         throw new Exception("We don't know this game mode!");
                 }
@@ -48,6 +48,8 @@ namespace UnoLogic
         {
             if (Table.LastCard.Color == CardColor.Black)
                 return "Bluff";
+            if (ActivePlayer.Hand.Count == 1 || PreviousPlayer(ActivePlayer).Hand.Count == 1)
+                return "Uno";
             return "Pass";
         }
 
@@ -80,6 +82,7 @@ namespace UnoLogic
         public void Deal()
         {
             IsGameOver = false;
+
             foreach (Player player in Players)
             {
                 player.Hand.Add(Deck.Deal(7));
@@ -259,6 +262,9 @@ namespace UnoLogic
                 showState();
             }
         }
+        public void Uno()
+        {
+        }
         private bool IsBluff(Player bluffedPlayer, Card targetCard)
         {
             foreach (Card card in bluffedPlayer.Hand)
@@ -268,7 +274,6 @@ namespace UnoLogic
             }
             return false;
         }
-
         private void ClearTable()
         {
             Table.CutTo(Table.Count - 1);
