@@ -27,6 +27,7 @@ namespace UnoLogic
         public bool IsGameOver { get; set; } = false;
         public string ResultInfo { get; set; }
         public Player ActivePlayer { get; set; }
+        public CardColor ChosedColor { get; set; }
         public string StateInfo
         {
             get
@@ -52,7 +53,6 @@ namespace UnoLogic
                 return "Uno";
             return "Pass";
         }
-        public CardColor ChosedColor { get; set; }
 
         private Mode mode;
         private MovesDiraction movesDiraction = MovesDiraction.Normal;
@@ -107,6 +107,12 @@ namespace UnoLogic
 
                 CheckPlayers();
                 CheckWinner();
+
+                if(ActivePlayer.Hand.Count == 1)
+                {
+                    //Тут треба поміркувати як зробити цю функцію
+                    return;
+                }
 
                 CheckCardSpecialPower(cardToTurn);
 
@@ -378,18 +384,6 @@ namespace UnoLogic
                     return NextPlayer(ActivePlayer).Name;
                 default:
                     throw new Exception("Unknnown game mode!");
-            }
-        }
-        private Player GetPreviousPlayer()
-        {
-            switch (movesDiraction)
-            {
-                case MovesDiraction.Normal:
-                    return PreviousPlayer(ActivePlayer);
-                case MovesDiraction.Inverted:
-                    return NextPlayer(ActivePlayer);
-                default:
-                    throw new Exception("Move mode isn't found");
             }
         }
     }
