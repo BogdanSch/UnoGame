@@ -36,9 +36,9 @@ namespace UnoLogic
                     case Mode.Move:
                         return $"{ActivePlayer.Name}!! This is your turn";
                     case Mode.Pass:
-                        return $"{PreviousPlayer(ActivePlayer).Name} is passing";
+                        return $"{GetPasserName()} is passing";
                     case Mode.Bluff:
-                        return $"{PreviousPlayer(PreviousPlayer(ActivePlayer)).Name} has bluffed";
+                        return $"{GetBlufferName()} has bluffed";
                     default:
                         throw new Exception("We don't know this game mode!");
                 }
@@ -340,6 +340,30 @@ namespace UnoLogic
             Player applicant = Players[0] == player ? Players[Players.Count - 1] : Players[Players.IndexOf(player) - 1];
             if (!applicant.IsInGame) return PreviousPlayer(applicant);
             return applicant;
+        }
+        private string GetBlufferName()
+        {
+            switch (movesDiraction)
+            {
+                case MovesDiraction.Normal:
+                    return PreviousPlayer(PreviousPlayer(ActivePlayer)).Name;
+                case MovesDiraction.Inverted:
+                    return NextPlayer(NextPlayer(ActivePlayer)).Name;
+                default:
+                    throw new Exception("Unknown game mode!");
+            }
+        }
+        private string GetPasserName()
+        {
+            switch (movesDiraction)
+            {
+                case MovesDiraction.Normal:
+                    return PreviousPlayer(ActivePlayer).Name;
+                case MovesDiraction.Inverted:
+                    return NextPlayer(ActivePlayer).Name;
+                default:
+                    throw new Exception("Unknnown game mode!");
+            }
         }
     }
 }
