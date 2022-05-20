@@ -48,11 +48,10 @@ namespace UnoLogic
         {
             if (Table.LastCard.Color == CardColor.Black)
                 return "Bluff";
-            if (ActivePlayer.Hand.Count == 1 || PreviousPlayer(ActivePlayer).Hand.Count == 1)
+            if (Players.Exists(p => p.Hand.Count == 1))
                 return "Uno";
             return "Pass";
         }
-
         public CardColor ChosedColor { get; set; }
 
         private Mode mode;
@@ -111,6 +110,7 @@ namespace UnoLogic
 
                 CheckCardSpecialPower(cardToTurn);
 
+                CheckPlayers();
                 GetNewActivePlayer();
 
                 ResultInfo = "";
@@ -167,6 +167,11 @@ namespace UnoLogic
             {
                 if (Players[i].Hand.Count <= 0)
                     Players[i].IsInGame = false;
+            }
+            foreach (Player player in Players)
+            {
+                if (player.Hand.Count > 1)
+                    player.Uno = false;
             }
         }
         private void CheckWinner()
@@ -260,6 +265,17 @@ namespace UnoLogic
         }
         public void Uno()
         {
+            if(ActivePlayer.Hand.Count == 1)
+            {
+                ActivePlayer.Uno = true;
+            }
+            foreach (Player player in Players)
+            {
+                if(player.Hand.Count == 1 && !player.Uno)
+                {
+                    player.Hand.Add(Deck.Deal(2));
+                }
+            }
         }
         private bool IsBluff(Player bluffedPlayer, Card targetCard)
         {
@@ -324,9 +340,8 @@ namespace UnoLogic
                     else bluffedPlayer = PreviousPlayer(ActivePlayer);
                     break;
                 default:
-                    throw new Exception("Game mode isn't found");
+                    throw new Exception("Moves mode isn't found");
             }
-
             return bluffedPlayer;
         }
         private Player NextPlayer(Player player)
@@ -363,6 +378,18 @@ namespace UnoLogic
                     return NextPlayer(ActivePlayer).Name;
                 default:
                     throw new Exception("Unknnown game mode!");
+            }
+        }
+        private Player GetPreviousPlayer()
+        {
+            switch (movesDiraction)
+            {
+                case MovesDiraction.Normal:
+                    return PreviousPlayer(ActivePlayer);
+                case MovesDiraction.Inverted:
+                    return NextPlayer(ActivePlayer);
+                default:
+                    throw new Exception("Move mode isn't found");
             }
         }
     }

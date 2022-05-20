@@ -16,5 +16,6 @@ namespace UnoLogic
         public string Name { get; set; }
         public CardSet Hand { get; set; }
         public bool IsInGame { get; set; } = true;
+        public bool Uno { get; set; } = false;
     }
 }
