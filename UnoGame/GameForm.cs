@@ -16,7 +16,7 @@ namespace UnoGame
     public partial class GameForm : Form
     {
         GraphicCard ActiveCard;
-        public static UnoLogic.UnoGame Game;
+        public static UnoLogic.UnoLogic Game;
         Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
 
         public GameForm()
@@ -40,14 +40,13 @@ namespace UnoGame
                 new Player("Yana", new GraphicCardSet(pPlr4)),
             };
 
-            Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
+            Game = new UnoLogic.UnoLogic(players, ShowState, ChangeColor);
             Game.Deck = new GraphicCardSet(pDeck);
             Game.Table = new GraphicCardSet(pTable);
             Game.Prepare();
             BindPictureBoxes();
             Game.Deal();
         }
-
         private CardColor ChangeColor()
         {
             CardColor targetColor;
@@ -145,10 +144,6 @@ namespace UnoGame
         private void bBluff_Click(object sender, EventArgs e)
         {
             Game.Bluff();
-        }
-        private void bUno_Click(object sender, EventArgs e)
-        {
-            Game.Uno();
         }
         private void UnoGameForm_Closing(object sender, FormClosingEventArgs e)
         {

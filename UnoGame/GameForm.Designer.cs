@@ -1,4 +1,6 @@
-﻿namespace UnoGame
+﻿using System.Windows.Forms;
+
+namespace UnoGame
 {
     partial class GameForm
     {
@@ -200,6 +202,15 @@
             this.picColor.Size = new System.Drawing.Size(112, 103);
             this.picColor.TabIndex = 0;
             this.picColor.TabStop = false;
+            //
+            //MenuStrip
+            //
+            ContextMenuStrip fileStrip = new ContextMenuStrip();
+            ToolStripMenuItem fileItem = new ToolStripMenuItem("File");
+
+            fileItem.DropDownItems.Add(new ToolStripMenuItem("Save"));
+
+            fileStrip.Items.Add(fileItem);
             // 
             // GameForm
             // 
