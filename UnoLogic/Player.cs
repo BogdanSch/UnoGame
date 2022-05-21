@@ -10,7 +10,6 @@ namespace UnoLogic
             Name = name;
             Hand = hand;
         }
-
         public Player(string name) : this(name, new CardSet()) { }
 
         public string Name { get; set; }
