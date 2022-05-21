@@ -19,7 +19,6 @@ namespace UnoLogic
             Normal,
             Inverted
         }
-
         private static readonly Random rnd = new Random();
         public List<Player> Players { get; set; }
         public CardSet Deck { get; set; }
