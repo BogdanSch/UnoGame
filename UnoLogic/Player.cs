@@ -3,6 +3,7 @@ using System;
 
 namespace UnoLogic
 {
+    [Serializable]
     public class Player
     {
         public Player(string name, CardSet hand)
@@ -11,6 +12,7 @@ namespace UnoLogic
             Hand = hand;
         }
         public Player(string name) : this(name, new CardSet()) { }
+        public Player() { }
 
         public string Name { get; set; }
         public CardSet Hand { get; set; }
