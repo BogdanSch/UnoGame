@@ -43,7 +43,6 @@
             this.pColor = new System.Windows.Forms.Panel();
             this.lHintColor = new System.Windows.Forms.Label();
             this.picColor = new System.Windows.Forms.PictureBox();
-            this.bUno = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbActiveCard)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.pTools.SuspendLayout();
@@ -164,7 +163,6 @@
             // 
             // pTools
             // 
-            this.pTools.Controls.Add(this.bUno);
             this.pTools.Controls.Add(this.bPass);
             this.pTools.Controls.Add(this.bBluff);
             this.pTools.Controls.Add(this.lInfo);
@@ -203,16 +201,6 @@
             this.picColor.TabIndex = 0;
             this.picColor.TabStop = false;
             // 
-            // bUno
-            // 
-            this.bUno.Location = new System.Drawing.Point(192, 101);
-            this.bUno.Name = "bUno";
-            this.bUno.Size = new System.Drawing.Size(85, 30);
-            this.bUno.TabIndex = 9;
-            this.bUno.Text = "Uno";
-            this.bUno.UseVisualStyleBackColor = true;
-            this.bUno.Click += new System.EventHandler(this.bUno_Click);
-            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -250,6 +238,5 @@
         private System.Windows.Forms.Panel pColor;
         private System.Windows.Forms.PictureBox picColor;
         private System.Windows.Forms.Label lHintColor;
-        private System.Windows.Forms.Button bUno;
     }
 }

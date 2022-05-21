@@ -48,8 +48,6 @@ namespace UnoLogic
         {
             if (Table.LastCard.Color == CardColor.Black)
                 return "Bluff";
-            if (Players.Exists(p => p.Hand.Count == 1))
-                return "Uno";
             return "Pass";
         }
 
@@ -106,12 +104,6 @@ namespace UnoLogic
 
                 CheckPlayers();
                 CheckWinner();
-
-                if(ActivePlayer.Hand.Count == 1)
-                {
-                    //Тут треба поміркувати як зробити цю функцію
-                    return;
-                }
 
                 CheckCardSpecialPower(cardToTurn);
 
@@ -268,20 +260,6 @@ namespace UnoLogic
                 showState();
             }
         }
-        public void Uno()
-        {
-            if(ActivePlayer.Hand.Count == 1)
-            {
-                ActivePlayer.Uno = true;
-            }
-            foreach (Player player in Players)
-            {
-                if(player.Hand.Count == 1 && !player.Uno)
-                {
-                    player.Hand.Add(Deck.Deal(2));
-                }
-            }
-        }
         private bool IsBluff(Player bluffedPlayer, Card targetCard)
         {
             foreach (Card card in bluffedPlayer.Hand)
@@ -294,10 +272,6 @@ namespace UnoLogic
         private void ClearTable()
         {
             Table.CutTo(Table.Count - 1);
-        }
-        private Player WhoFirst()
-        {
-            return Players[0];
         }
         private bool Impossible(Card cardToTurn)
         {
@@ -314,6 +288,10 @@ namespace UnoLogic
             return front.Color == back.Color ||
                     front.Figure == back.Figure ||
                     front.Color == CardColor.Black;
+        }
+        private Player WhoFirst()
+        {
+            return Players[0];
         }
         private void GetNewActivePlayer()
         {

@@ -79,7 +79,6 @@ namespace UnoGame
             string action = Game.GetPossibleActions();
 
             bBluff.Enabled = action.Contains("Bluff") && !Game.IsGameOver;
-            bUno.Enabled = action.Contains("Uno") && !Game.IsGameOver;
         }
         private void ShowOrHide(CardSet set, bool isOpen)
         {
