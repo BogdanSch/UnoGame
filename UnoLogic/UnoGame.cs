@@ -7,7 +7,7 @@ using System.Text;
 namespace UnoLogic
 {
     [Serializable]
-    public class UnoLogic
+    public class UnoGame
     {
         enum Mode
         {
@@ -58,7 +58,7 @@ namespace UnoLogic
         private Func<CardColor> changeColor;
         private readonly int maxCountCards = 6;
 
-        public UnoLogic(List<Player> players, Action showState,  Func<CardColor> changeColor)
+        public UnoGame(List<Player> players, Action showState,  Func<CardColor> changeColor)
         {
             Players = players;
             this.showState = showState;
@@ -66,6 +66,7 @@ namespace UnoLogic
             Table = new CardSet();
             Deck = new CardSet();
         }
+        public UnoGame() { }
         public void Prepare()
         {
             foreach (Player player in Players)

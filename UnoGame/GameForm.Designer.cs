@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace UnoGame
+namespace UnoForm
 {
     partial class GameForm
     {
@@ -202,15 +202,6 @@ namespace UnoGame
             this.picColor.Size = new System.Drawing.Size(112, 103);
             this.picColor.TabIndex = 0;
             this.picColor.TabStop = false;
-            //
-            //MenuStrip
-            //
-            ContextMenuStrip fileStrip = new ContextMenuStrip();
-            ToolStripMenuItem fileItem = new ToolStripMenuItem("File");
-
-            fileItem.DropDownItems.Add(new ToolStripMenuItem("Save"));
-
-            fileStrip.Items.Add(fileItem);
             // 
             // GameForm
             // 
@@ -219,9 +210,11 @@ namespace UnoGame
             this.ClientSize = new System.Drawing.Size(925, 510);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.pbActiveCard);
+            this.KeyPreview = true;
             this.Name = "GameForm";
             this.Text = "Uno Game";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnoGameForm_Closing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbActiveCard)).EndInit();
             this.tableLayoutPanel.ResumeLayout(false);
             this.pTools.ResumeLayout(false);

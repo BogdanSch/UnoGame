@@ -5,18 +5,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using UnoLogic;
 
-namespace UnoGame
+namespace UnoForm
 {
     public partial class GameForm : Form
     {
         GraphicCard ActiveCard;
-        public static UnoLogic.UnoLogic Game;
+        public static UnoGame Game;
         Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
 
         public GameForm()
@@ -40,7 +42,7 @@ namespace UnoGame
                 new Player("Yana", new GraphicCardSet(pPlr4)),
             };
 
-            Game = new UnoLogic.UnoLogic(players, ShowState, ChangeColor);
+            Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
             Game.Deck = new GraphicCardSet(pDeck);
             Game.Table = new GraphicCardSet(pTable);
             Game.Prepare();
@@ -148,6 +150,19 @@ namespace UnoGame
         private void UnoGameForm_Closing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+        private void GameForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.S)
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(UnoGame));
+
+                using (FileStream file = new FileStream("Game.xml", FileMode.OpenOrCreate))
+                {
+                    xmlSerializer.Serialize(file, Game);
+                    MessageBox.Show("Object has been serialized", "Game");
+                }
+            }
         }
     }
 }

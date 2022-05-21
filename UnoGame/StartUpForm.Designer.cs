@@ -1,4 +1,4 @@
-﻿namespace UnoGame
+﻿namespace UnoForm
 {
     partial class StartUpForm
     {
