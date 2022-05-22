@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 using UnoLogic;
 
@@ -155,12 +156,14 @@ namespace UnoForm
         {
             if(e.KeyCode == Keys.S)
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(Game.GetType());
-                
-                using (StreamWriter file = new StreamWriter("Game.xml"))
+                XmlSerializer xsSubmit = new XmlSerializer(typeof(UnoGame));
+
+                using (var sw = new StringWriter())
                 {
-                    xmlSerializer.Serialize(file, Game);
-                    MessageBox.Show("Object has been serialized", "Game");
+                    using (XmlWriter writer = XmlWriter.Create(sw))
+                    {
+                        xsSubmit.Serialize(writer, Game);
+                    }
                 }
             }
         }
