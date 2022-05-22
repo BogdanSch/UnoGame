@@ -34,6 +34,12 @@ namespace GraphicCardInfrasctructure
             CardPicture.SizeMode = PictureBoxSizeMode.Zoom;
             CardPicture.Image = faceDownImage;
         }
+        public GraphicCard()
+        {
+            CardPicture = new PictureBox();
+            CardPicture.SizeMode = PictureBoxSizeMode.Zoom;
+            CardPicture.Image = faceDownImage;
+        }
         static GraphicCard()
         {
             faceDownImage = Image.FromFile($"{Application.StartupPath}\\images\\Back.png");

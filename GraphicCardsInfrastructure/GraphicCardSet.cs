@@ -21,7 +21,7 @@ namespace GraphicCardInfrasctructure
             Panel = panel;
         }
         public GraphicCardSet(Panel panel, List<GraphicCard> cards) : this(panel, cards.ToArray()) { }
-        
+        public GraphicCardSet() : this(new Panel()) { }
         public override CardSet GetBlankCardSet()
         {
             return new GraphicCardSet(new Panel());

@@ -67,6 +67,16 @@ namespace CardModel
         {
             Cards.AddRange(cards);
         }
+        public void Add(object obj)
+        {
+            Card card = obj as Card;
+
+            if (card != null)
+            {
+                Add(card);
+            }
+            else throw new Exception("Not valid");
+        }
         public void Add(List<Card> cards)
         {
             Add(cards.ToArray());
@@ -141,7 +151,6 @@ namespace CardModel
         {
             CutTo(0);
         }
-
         public IEnumerator<Card> GetEnumerator() => Cards.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Cards.GetEnumerator();
     }

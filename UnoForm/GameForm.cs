@@ -155,12 +155,11 @@ namespace UnoForm
         {
             if(e.KeyCode == Keys.S)
             {
-                Player plr = new Player("Alex");
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Player));
-
-                using (FileStream file = new FileStream("player.xml", FileMode.OpenOrCreate))
+                XmlSerializer xmlSerializer = new XmlSerializer(Game.GetType());
+                
+                using (StreamWriter file = new StreamWriter("Game.xml"))
                 {
-                    xmlSerializer.Serialize(file, plr);
+                    xmlSerializer.Serialize(file, Game);
                     MessageBox.Show("Object has been serialized", "Game");
                 }
             }

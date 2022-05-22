@@ -13,7 +13,7 @@ namespace CardModel
             Color = cardSuite;
             Figure = cardFigure;
         }
-
+        public Card() { }
         public CardColor Color { get; set; }
         public CardFigure Figure { get; set; }
 
@@ -30,12 +30,10 @@ namespace CardModel
             if (other.Color == Color && other.Figure == Figure) return true;
             return false;
         }
-
         public override int GetHashCode()
         {
             return 0;
         }
-
         public override string ToString()
         {
             return $"{Color} {Figure}";
