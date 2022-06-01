@@ -6,9 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace GraphicCardInfrasctructure
 {
+    [XmlInclude(typeof(GraphicCardSet))]
+    [Serializable]
     public class GraphicCardSet : CardSet
     {
         public Panel Panel { get; }

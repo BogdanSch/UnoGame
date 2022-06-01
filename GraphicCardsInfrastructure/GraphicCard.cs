@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Xml.Serialization;
+using System;
 
 namespace GraphicCardInfrasctructure
 {
+    [XmlInclude(typeof(GraphicCard))]
+    [Serializable]
     public class GraphicCard : Card
     {
         private static readonly Image faceDownImage;

@@ -1,8 +1,10 @@
 ﻿using CardModel;
 using System;
+using System.Xml.Serialization;
 
 namespace UnoLogic
 {
+    [XmlInclude(typeof(Player))]
     [Serializable]
     public class Player
     {

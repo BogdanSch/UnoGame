@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace CardModel
 {
+    [XmlInclude(typeof(Card))]
+    [Serializable]
     public class Card
     {
         public Card(CardColor cardSuite, CardFigure cardFigure)
