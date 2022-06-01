@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardModel
 {
@@ -71,10 +68,7 @@ namespace CardModel
         {
             Card card = obj as Card;
 
-            if (card != null)
-            {
-                Add(card);
-            }
+            if (card != null) Add(card);
             else throw new Exception("Not valid");
         }
         public void Add(List<Card> cards)

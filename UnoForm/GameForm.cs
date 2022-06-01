@@ -2,15 +2,9 @@
 using GraphicCardInfrasctructure;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
 using UnoLogic;
 
@@ -156,14 +150,12 @@ namespace UnoForm
         {
             if(e.KeyCode == Keys.S)
             {
-                XmlSerializer xsSubmit = new XmlSerializer(typeof(UnoGame));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(UnoGame));
 
-                using (var sw = new StringWriter())
+                using (FileStream fs = new FileStream("person.xml", FileMode.OpenOrCreate))
                 {
-                    using (XmlWriter writer = XmlWriter.Create(sw))
-                    {
-                        xsSubmit.Serialize(writer, Game);
-                    }
+                    xmlSerializer.Serialize(fs, Game);
+                    MessageBox.Show("Object has been serialized");
                 }
             }
         }

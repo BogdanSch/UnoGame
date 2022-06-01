@@ -91,10 +91,11 @@ namespace UnoLogic
             mode = Mode.Move;
 
             ActivePlayer = WhoFirst();
-            Table.Add(Deck.Pull(Deck.Count - 1));
+            Table.Add(GetFirstCard());
 
             showState();
         }
+
         public void Turn(Card cardToTurn)
         {
             if (!Impossible(cardToTurn))
@@ -294,6 +295,16 @@ namespace UnoLogic
         private Player WhoFirst()
         {
             return Players[0];
+        }
+        private Card GetFirstCard()
+        {
+            Card card = Deck.Pull(Deck.Count - 1);
+
+            if (card.Color == CardColor.Black)
+            {
+                GetFirstCard();
+            }
+            return card;
         }
         private void GetNewActivePlayer()
         {
