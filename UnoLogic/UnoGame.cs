@@ -21,12 +21,13 @@ namespace UnoLogic
             Pass,
             Bluff
         }
-        enum MovesDiraction
+        public enum MovesDiraction
         {
             Normal,
             Inverted
         }
         private static readonly Random rnd = new Random();
+        private readonly int maxCountCards = 6;
         public List<Player> Players { get; set; }
         public CardSet Deck { get; set; }
         public CardSet Table { get; set; }
@@ -34,6 +35,7 @@ namespace UnoLogic
         public string ResultInfo { get; set; }
         public Player ActivePlayer { get; set; }
         public CardColor ChosedColor { get; set; }
+        public MovesDiraction MoveDiraction { get; set; } = MovesDiraction.Normal;
         public string StateInfo
         {
             get
@@ -57,12 +59,9 @@ namespace UnoLogic
                 return "Bluff";
             return "Pass";
         }
-
         private Mode mode;
-        private MovesDiraction movesDiraction = MovesDiraction.Normal;
         private Action showState;
         private Func<CardColor> changeColor;
-        private readonly int maxCountCards = 6;
 
         public UnoGame(List<Player> players, Action showState,  Func<CardColor> changeColor)
         {
@@ -156,13 +155,13 @@ namespace UnoLogic
         }
         private void SwitchMovesMode()
         {
-            switch (movesDiraction)
+            switch (MoveDiraction)
             {
                 case MovesDiraction.Normal:
-                    movesDiraction = MovesDiraction.Inverted;
+                    MoveDiraction = MovesDiraction.Inverted;
                     break;
                 case MovesDiraction.Inverted:
-                    movesDiraction = MovesDiraction.Normal;
+                    MoveDiraction = MovesDiraction.Normal;
                     break;
                 default:
                     throw new Exception("Unknow moves diraction!");
@@ -326,7 +325,7 @@ namespace UnoLogic
         }
         private void GetNewActivePlayer()
         {
-            switch (movesDiraction)
+            switch (MoveDiraction)
             {
                 case MovesDiraction.Normal:
                     ActivePlayer = NextPlayer(ActivePlayer);
@@ -341,7 +340,7 @@ namespace UnoLogic
         private Player GetBluffedPlayer()
         {
             Player bluffedPlayer;
-            switch (movesDiraction)
+            switch (MoveDiraction)
             {
                 case MovesDiraction.Normal:
                     if (Table.LastCard.Figure == CardFigure.SquadCards)
@@ -372,7 +371,7 @@ namespace UnoLogic
         }
         private string GetBlufferName()
         {
-            switch (movesDiraction)
+            switch (MoveDiraction)
             {
                 case MovesDiraction.Normal:
                     return PreviousPlayer(PreviousPlayer(ActivePlayer)).Name;
@@ -384,7 +383,7 @@ namespace UnoLogic
         }
         private string GetPasserName()
         {
-            switch (movesDiraction)
+            switch (MoveDiraction)
             {
                 case MovesDiraction.Normal:
                     return PreviousPlayer(ActivePlayer).Name;
