@@ -36,6 +36,7 @@ namespace UnoLogic
         public Player ActivePlayer { get; set; }
         public CardColor ChosedColor { get; set; }
         public MovesDiraction MoveDiraction { get; set; } = MovesDiraction.Normal;
+        public bool IsBluffed { get; set; } = false;
         public string StateInfo
         {
             get
@@ -106,6 +107,7 @@ namespace UnoLogic
             if (!Impossible(cardToTurn))
             {
                 if (Table.Count > maxCountCards) ClearTable();
+                IsBluffed = false;
 
                 mode = Mode.Move;
                 Table.Add(ActivePlayer.Hand.Pull(cardToTurn));
@@ -140,9 +142,7 @@ namespace UnoLogic
                     if (Deck.Count > 0)
                     {
                         if (ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
-                        {
                             return;
-                        }
                         GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
@@ -155,16 +155,13 @@ namespace UnoLogic
                     if(Deck.Count > 0)
                     {
                         if(ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
-                        {
                             return;
-                        }
                         GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(4));
                     }
                     break;
             }
         }
-
         private bool ContainsCardToBeat(Player player, CardFigure figure)
         {
             foreach (Card card in player.Hand)
@@ -174,7 +171,6 @@ namespace UnoLogic
             }
             return false;
         }
-
         private void SwitchMovesMode()
         {
             switch (MoveDiraction)
@@ -268,6 +264,8 @@ namespace UnoLogic
         }
         public void Bluff()
         {
+            if (IsBluffed)
+                return;
             Player bluffedPlayer = GetBluffedPlayer();
 
             Card targetCard = Table[Table.Count - 2];
@@ -277,12 +275,13 @@ namespace UnoLogic
                 mode = Mode.Bluff;
                 if (Deck.Count > 2)
                     bluffedPlayer.Hand.Add(Deck.Deal(2));
+                IsBluffed = true;
                 bluffedPlayer.Hand.Sort();
                 showState();
             }
             else
             {
-                if (Deck.Count > 2)
+                if (Deck.Count >= 2)
                 {
                     ActivePlayer.Hand.Add(Deck.Deal(2));
                     ActivePlayer.Hand.Sort();
@@ -347,36 +346,17 @@ namespace UnoLogic
         }
         private void GetNewActivePlayer()
         {
-            switch (MoveDiraction)
-            {
-                case MovesDiraction.Normal:
-                    ActivePlayer = NextPlayer(ActivePlayer);
-                    break;
-                case MovesDiraction.Inverted:
-                    ActivePlayer = PreviousPlayer(ActivePlayer);
-                    break;
-                default:
-                    throw new Exception("We can't find new player!");
-            }
+            ActivePlayer = GetNextPlayer(ActivePlayer);
         }
         private Player GetBluffedPlayer()
         {
-            Player bluffedPlayer;
-            switch (MoveDiraction)
-            {
-                case MovesDiraction.Normal:
-                    if (Table.LastCard.Figure == CardFigure.SquadCards)
-                        bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
-                    else bluffedPlayer = PreviousPlayer(ActivePlayer);
-                    break;
-                case MovesDiraction.Inverted:
-                    if (Table.LastCard.Figure == CardFigure.SquadCards)
-                        bluffedPlayer = NextPlayer(NextPlayer(ActivePlayer));
-                    else bluffedPlayer = PreviousPlayer(ActivePlayer);
-                    break;
-                default:
-                    throw new Exception("Moves mode isn't found");
-            }
+            Player bluffedPlayer = null;
+
+            if (Table.LastCard.Figure == CardFigure.SquadCards)
+                bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
+            else
+                bluffedPlayer = PreviousPlayer(ActivePlayer);
+
             return bluffedPlayer;
         }
         private Player GetNextPlayer(Player player)
