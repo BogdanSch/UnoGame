@@ -147,18 +147,5 @@ namespace UnoForm
         {
             Application.Exit();
         }
-        private void GameForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.S)
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(Game.GetType());
-
-                using (FileStream fs = new FileStream("person.xml", FileMode.OpenOrCreate))
-                {
-                    xmlSerializer.Serialize(fs, Game);
-                }
-                MessageBox.Show("Object has been serialized");
-            }
-        }
     }
 }

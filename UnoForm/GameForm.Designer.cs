@@ -214,7 +214,6 @@ namespace UnoForm
             this.Name = "GameForm";
             this.Text = "Uno Game";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnoGameForm_Closing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbActiveCard)).EndInit();
             this.tableLayoutPanel.ResumeLayout(false);
             this.pTools.ResumeLayout(false);

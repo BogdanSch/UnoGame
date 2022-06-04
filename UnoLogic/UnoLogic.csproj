@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CardModel\CardModel.csproj" />
+    <ProjectReference Include="..\GraphicCardsInfrastructure\GraphicCardsInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

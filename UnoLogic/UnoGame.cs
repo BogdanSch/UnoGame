@@ -1,12 +1,18 @@
-﻿    using CardModel;
+﻿using CardModel;
+using GraphicCardInfrasctructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace UnoLogic
 {
+    [XmlInclude(typeof(GraphicCard))]
+    [Serializable]
     public class UnoGame
     {
         enum Mode
@@ -115,6 +121,7 @@ namespace UnoLogic
 
                 ResultInfo = "";
                 showState();
+                SerializeGame();
             }
         }
         private void CheckCardSpecialPower(Card cardToTurn)
@@ -310,7 +317,10 @@ namespace UnoLogic
                 card = temp;
 
                 if (card.Color == CardColor.Black)
+                {
+                    Deck.Add(card);
                     GetFirstCard();
+                }
             }
             return card;
         }
@@ -382,6 +392,15 @@ namespace UnoLogic
                     return NextPlayer(ActivePlayer).Name;
                 default:
                     throw new Exception("Unknnown game mode!");
+            }
+        }
+        private void SerializeGame()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(this.GetType());
+
+            using (FileStream fs = new FileStream("Game.xml", FileMode.Create))
+            {
+                xmlSerializer.Serialize(fs, this);
             }
         }
     }
