@@ -115,7 +115,6 @@ namespace UnoLogic
 
                 CheckCardSpecialPower(cardToTurn);
 
-                CheckPlayers();
                 GetNewActivePlayer();
 
                 ResultInfo = "";
@@ -128,6 +127,10 @@ namespace UnoLogic
             switch (cardToTurn.Figure)
             {
                 case CardFigure.Block:
+                    if (ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                    {
+                        return;
+                    }
                     GetNewActivePlayer();
                     break;
                 case CardFigure.Switcher:
@@ -136,6 +139,10 @@ namespace UnoLogic
                 case CardFigure.DoubleCards:
                     if (Deck.Count > 0)
                     {
+                        if (ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                        {
+                            return;
+                        }
                         GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
@@ -147,12 +154,27 @@ namespace UnoLogic
                     ChosedColor = changeColor();
                     if(Deck.Count > 0)
                     {
+                        if(ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                        {
+                            return;
+                        }
                         GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(4));
                     }
                     break;
             }
         }
+
+        private bool ContainsCardToBeat(Player player, CardFigure figure)
+        {
+            foreach (Card card in player.Hand)
+            {
+                if (card.Figure == figure)
+                    return true;
+            }
+            return false;
+        }
+
         private void SwitchMovesMode()
         {
             switch (MoveDiraction)
@@ -356,6 +378,38 @@ namespace UnoLogic
                     throw new Exception("Moves mode isn't found");
             }
             return bluffedPlayer;
+        }
+        private Player GetNextPlayer(Player player)
+        {
+            switch (MoveDiraction)
+            {
+                case MovesDiraction.Normal:
+                    player = NextPlayer(ActivePlayer);
+                    break;
+                case MovesDiraction.Inverted:
+                    player = PreviousPlayer(ActivePlayer);
+                    break;
+                default:
+                    throw new Exception("We can't find new player!");
+            }
+
+            return player;
+        }
+        private Player GetPreviousPlayer(Player player)
+        {
+            switch (MoveDiraction)
+            {
+                case MovesDiraction.Normal:
+                    player = PreviousPlayer(ActivePlayer);
+                    break;
+                case MovesDiraction.Inverted:
+                    player = NextPlayer(ActivePlayer);
+                    break;
+                default:
+                    throw new Exception("We can't find new player!");
+            }
+
+            return player;
         }
         private Player NextPlayer(Player player)
         {
