@@ -151,13 +151,13 @@ namespace UnoForm
         {
             if(e.KeyCode == Keys.S)
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(UnoGame));
+                XmlSerializer xmlSerializer = new XmlSerializer(Game.GetType());
 
                 using (FileStream fs = new FileStream("person.xml", FileMode.OpenOrCreate))
                 {
                     xmlSerializer.Serialize(fs, Game);
-                    MessageBox.Show("Object has been serialized");
                 }
+                MessageBox.Show("Object has been serialized");
             }
         }
     }

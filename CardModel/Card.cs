@@ -7,8 +7,6 @@ using System.Xml.Serialization;
 
 namespace CardModel
 {
-    [XmlInclude(typeof(Card))]
-    [Serializable]
     public class Card
     {
         public Card(CardColor cardSuite, CardFigure cardFigure)

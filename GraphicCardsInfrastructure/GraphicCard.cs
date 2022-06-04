@@ -7,8 +7,6 @@ using System;
 
 namespace GraphicCardInfrasctructure
 {
-    [XmlInclude(typeof(GraphicCard))]
-    [Serializable]
     public class GraphicCard : Card
     {
         private static readonly Image faceDownImage;

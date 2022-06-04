@@ -7,8 +7,6 @@ using System.Xml.Serialization;
 
 namespace UnoLogic
 {
-    [XmlInclude(typeof(UnoGame))]
-    [Serializable]
     public class UnoGame
     {
         enum Mode
@@ -304,7 +302,15 @@ namespace UnoLogic
 
             if (card.Color == CardColor.Black)
             {
-                GetFirstCard();
+                int randomCardNum = rnd.Next(0, Deck.Count - 1);
+
+                Card randomCard = Deck[randomCardNum];
+                Card temp = randomCard;
+                Deck[randomCardNum] = card;
+                card = temp;
+
+                if (card.Color == CardColor.Black)
+                    GetFirstCard();
             }
             return card;
         }
