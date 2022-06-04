@@ -37,6 +37,7 @@ namespace UnoLogic
         public CardColor ChosedColor { get; set; }
         public MovesDiraction MoveDiraction { get; set; } = MovesDiraction.Normal;
         public bool IsBluffed { get; set; } = false;
+        public bool CanBeat { get; set; } = false;
         public string StateInfo
         {
             get
@@ -142,7 +143,9 @@ namespace UnoLogic
                     if (Deck.Count > 0)
                     {
                         if (ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                        {
                             return;
+                        }
                         GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
@@ -155,7 +158,9 @@ namespace UnoLogic
                     if(Deck.Count > 0)
                     {
                         if(ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                        {
                             return;
+                        }
                         GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(4));
                     }
@@ -167,7 +172,10 @@ namespace UnoLogic
             foreach (Card card in player.Hand)
             {
                 if (card.Figure == figure)
+                {
+                    CanBeat = true;
                     return true;
+                }
             }
             return false;
         }
@@ -205,7 +213,7 @@ namespace UnoLogic
             if (!PlayersContainsCardToTurn())
             {
                 IsGameOver = true;
-                ResultInfo = "No one has a card to do a turn!";
+                ResultInfo = "No one has a card to do a turn! \n Game over!";
             }
             if (playersInGame == 1)
             {
@@ -232,7 +240,6 @@ namespace UnoLogic
                             return true;
                 }
             }
-
             return false;
         }
         public void Pass()
@@ -311,6 +318,11 @@ namespace UnoLogic
         }
         private bool IsBeat(Card front, Card back)
         {
+            if (CanBeat)
+            {
+                CanBeat = false;
+                return front.Figure == back.Figure;
+            }
            if(Table.LastCard.Color == CardColor.Black)
                return front.Color == back.Color ||
                    front.Color == ChosedColor;
