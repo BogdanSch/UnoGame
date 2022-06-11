@@ -55,9 +55,9 @@ namespace UnoForm
             // pTable
             // 
             this.pTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pTable.Location = new System.Drawing.Point(343, 178);
+            this.pTable.Location = new System.Drawing.Point(334, 178);
             this.pTable.Name = "pTable";
-            this.pTable.Size = new System.Drawing.Size(209, 169);
+            this.pTable.Size = new System.Drawing.Size(226, 169);
             this.pTable.TabIndex = 0;
             // 
             // pPlr1
@@ -65,7 +65,7 @@ namespace UnoForm
             this.pPlr1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr1.Location = new System.Drawing.Point(3, 353);
             this.pPlr1.Name = "pPlr1";
-            this.pPlr1.Size = new System.Drawing.Size(334, 169);
+            this.pPlr1.Size = new System.Drawing.Size(325, 169);
             this.pPlr1.TabIndex = 1;
             // 
             // pPlr4
@@ -73,23 +73,23 @@ namespace UnoForm
             this.pPlr4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr4.Location = new System.Drawing.Point(3, 3);
             this.pPlr4.Name = "pPlr4";
-            this.pPlr4.Size = new System.Drawing.Size(334, 169);
+            this.pPlr4.Size = new System.Drawing.Size(325, 169);
             this.pPlr4.TabIndex = 2;
             // 
             // pPlr3
             // 
             this.pPlr3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pPlr3.Location = new System.Drawing.Point(558, 3);
+            this.pPlr3.Location = new System.Drawing.Point(566, 3);
             this.pPlr3.Name = "pPlr3";
-            this.pPlr3.Size = new System.Drawing.Size(335, 169);
+            this.pPlr3.Size = new System.Drawing.Size(327, 169);
             this.pPlr3.TabIndex = 3;
             // 
             // pPlr2
             // 
             this.pPlr2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pPlr2.Location = new System.Drawing.Point(558, 353);
+            this.pPlr2.Location = new System.Drawing.Point(566, 353);
             this.pPlr2.Name = "pPlr2";
-            this.pPlr2.Size = new System.Drawing.Size(335, 169);
+            this.pPlr2.Size = new System.Drawing.Size(327, 169);
             this.pPlr2.TabIndex = 4;
             // 
             // pDeck
@@ -97,7 +97,7 @@ namespace UnoForm
             this.pDeck.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pDeck.Location = new System.Drawing.Point(3, 178);
             this.pDeck.Name = "pDeck";
-            this.pDeck.Size = new System.Drawing.Size(334, 169);
+            this.pDeck.Size = new System.Drawing.Size(325, 169);
             this.pDeck.TabIndex = 1;
             // 
             // bPass
@@ -142,9 +142,9 @@ namespace UnoForm
             // tableLayoutPanel
             // 
             this.tableLayoutPanel.ColumnCount = 3;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37F));
             this.tableLayoutPanel.Controls.Add(this.pPlr4, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.pPlr3, 2, 0);
             this.tableLayoutPanel.Controls.Add(this.pDeck, 0, 1);
@@ -169,9 +169,9 @@ namespace UnoForm
             this.pTools.Controls.Add(this.bBluff);
             this.pTools.Controls.Add(this.lInfo);
             this.pTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pTools.Location = new System.Drawing.Point(558, 178);
+            this.pTools.Location = new System.Drawing.Point(566, 178);
             this.pTools.Name = "pTools";
-            this.pTools.Size = new System.Drawing.Size(335, 169);
+            this.pTools.Size = new System.Drawing.Size(327, 169);
             this.pTools.TabIndex = 5;
             // 
             // pColor
@@ -179,9 +179,9 @@ namespace UnoForm
             this.pColor.Controls.Add(this.lHintColor);
             this.pColor.Controls.Add(this.picColor);
             this.pColor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pColor.Location = new System.Drawing.Point(343, 3);
+            this.pColor.Location = new System.Drawing.Point(334, 3);
             this.pColor.Name = "pColor";
-            this.pColor.Size = new System.Drawing.Size(209, 169);
+            this.pColor.Size = new System.Drawing.Size(226, 169);
             this.pColor.TabIndex = 6;
             // 
             // lHintColor

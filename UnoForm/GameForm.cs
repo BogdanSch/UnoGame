@@ -39,8 +39,8 @@ namespace UnoForm
             };
 
             Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
-            Game.Deck = new GraphicCardSet(pDeck);
-            Game.Table = new GraphicCardSet(pTable);
+            Game.GameState.Deck = new GraphicCardSet(pDeck);
+            Game.GameState.Table = new GraphicCardSet(pTable);
             Game.Prepare();
             BindPictureBoxes();
             Game.Deal();
@@ -60,22 +60,22 @@ namespace UnoForm
         }
         private void ShowState()
         {
-            ShowOrHide(Game.Table, true);
-            ShowOrHide(Game.Deck, false);
-            foreach (Player player in Game.Players)
+            ShowOrHide(Game.GameState.Table, true);
+            ShowOrHide(Game.GameState.Deck, false);
+            foreach (Player player in Game.GameState.Players)
             {
-                ShowOrHide(player.Hand, player == Game.ActivePlayer);
+                ShowOrHide(player.Hand, player == Game.GameState.ActivePlayer);
             }
-            if (Game.IsGameOver) 
+            if (Game.GameState.IsGameOver) 
             {
-                lInfo.Text = $"{Game.ResultInfo}";
+                lInfo.Text = $"{Game.GameState.ResultInfo}";
                 return;
             }
-            lInfo.Text = $"{Game.ResultInfo}... {Game.StateInfo}";
+            lInfo.Text = $"{Game.GameState.ResultInfo}... {Game.StateInfo}";
 
             string action = Game.GetPossibleActions();
 
-            bBluff.Enabled = action.Contains("Bluff") && !Game.IsGameOver && !Game.IsBluffed;
+            bBluff.Enabled = action.Contains("Bluff") && !Game.GameState.IsGameOver && !Game.GameState.IsBluffed;
         }
         private void ShowOrHide(CardSet set, bool isOpen)
         {
@@ -91,7 +91,7 @@ namespace UnoForm
         }
         private void BindPictureBoxes()
         {
-            foreach (var card in Game.Deck)
+            foreach (var card in Game.GameState.Deck)
             {
                 GraphicCard gCard = card as GraphicCard;
                 if (gCard != null)
