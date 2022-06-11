@@ -131,9 +131,7 @@ namespace UnoLogic
             {
                 case CardFigure.Block:
                     if (ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
-                    {
                         return;
-                    }
                     GetNewActivePlayer();
                     break;
                 case CardFigure.Switcher:
@@ -143,10 +141,14 @@ namespace UnoLogic
                     if (Deck.Count > 0)
                     {
                         if (ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                            return;
+                        GetNewActivePlayer();
+
+                        if (Deck.Count < 2)
                         {
+                            ActivePlayer.Hand.Add(Deck.Deal(Deck.Count));
                             return;
                         }
-                        GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(2));
                     }
                     break;
@@ -158,10 +160,13 @@ namespace UnoLogic
                     if(Deck.Count > 0)
                     {
                         if(ContainsCardToBeat(GetNextPlayer(ActivePlayer), cardToTurn.Figure))
+                            return;
+                        GetNewActivePlayer();
+                        if(Deck.Count < 4)
                         {
+                            ActivePlayer.Hand.Add(Deck.Deal(Deck.Count));
                             return;
                         }
-                        GetNewActivePlayer();
                         ActivePlayer.Hand.Add(Deck.Deal(4));
                     }
                     break;
@@ -200,11 +205,11 @@ namespace UnoLogic
                 if (Players[i].Hand.Count <= 0)
                     Players[i].IsInGame = false;
             }
-            foreach (Player player in Players)
-            {
-                if (player.Hand.Count > 1)
-                    player.Uno = false;
-            }
+            //foreach (Player player in Players)
+            //{
+            //    if (player.Hand.Count > 1)
+            //        player.Uno = false;
+            //}
         }
         private void CheckWinner()
         {
