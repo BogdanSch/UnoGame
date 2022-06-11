@@ -15,7 +15,8 @@ namespace UnoLogic
         {
             Move,
             Pass,
-            Bluff
+            Bluff,
+            FakeBluff
         }
         public enum MovesDiraction
         {
@@ -27,6 +28,10 @@ namespace UnoLogic
         private bool isPassUsed = false;
 
         public UnoData GameState = new UnoData();
+
+        private Player bluffer;
+        private Player passer;
+        private Player fakeBluffer;
         
         public string StateInfo
         {
@@ -37,9 +42,11 @@ namespace UnoLogic
                     case Mode.Move:
                         return $"{GameState.ActivePlayer.Name}!! This is your turn";
                     case Mode.Pass:
-                        return $"{GetPasserName()} is passing";
+                        return $"{passer.Name} is passing";
                     case Mode.Bluff:
-                        return $"{GetBlufferName()} has bluffed";
+                        return $"{bluffer.Name} has bluffed";
+                    case Mode.FakeBluff:
+                        return $"{fakeBluffer.Name} has bluffed";
                     default:
                         throw new Exception("We don't know this game mode!");
                 }
@@ -243,10 +250,12 @@ namespace UnoLogic
         {
             if (isPassUsed) return;
             isPassUsed = true;
+
             CheckPlayers();
             CheckWinner();
 
             mode = Mode.Pass;
+            passer = GameState.ActivePlayer;
 
             if(GameState.Deck.Count > 0)
             {
@@ -279,7 +288,8 @@ namespace UnoLogic
             if (IsBluff(bluffedPlayer, targetCard))
             {
                 mode = Mode.Bluff;
-                if (GameState.Deck.Count > 2)
+                bluffer = bluffedPlayer;
+                if (GameState.Deck.Count >= 2)
                     bluffedPlayer.Hand.Add(GameState.Deck.Deal(2));
                 else bluffedPlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
 
@@ -289,11 +299,15 @@ namespace UnoLogic
             }
             else
             {
+                mode = Mode.FakeBluff;
+                fakeBluffer = GameState.ActivePlayer;
+
                 if (GameState.Deck.Count >= 2)
                 {
                     GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(2));
-                    GameState.ActivePlayer.Hand.Sort();
                 }
+                else GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
+                GameState.ActivePlayer.Hand.Sort();
                 GetNewActivePlayer();
                 showState();
             }
@@ -429,32 +443,6 @@ namespace UnoLogic
             Player applicant = GameState.Players[0] == player ? GameState.Players[GameState.Players.Count - 1] : GameState.Players[GameState.Players.IndexOf(player) - 1];
             if (!applicant.IsInGame) return PreviousPlayer(applicant);
             return applicant;
-        }
-        private string GetBlufferName()
-        {
-            return GetPreviousPlayer(GetPreviousPlayer(GameState.ActivePlayer)).Name;
-            //switch (GameState.MoveDiraction)
-            //{
-            //    case MovesDiraction.Normal:
-            //        return PreviousPlayer(PreviousPlayer(GameState.ActivePlayer)).Name;
-            //    case MovesDiraction.Inverted:
-            //        return NextPlayer(NextPlayer(GameState.ActivePlayer)).Name;
-            //    default:
-            //        throw new Exception("Unknown game mode!");
-            //}
-        }
-        private string GetPasserName()
-        {
-            return GetPreviousPlayer(GameState.ActivePlayer).Name;
-            //switch (GameState.MoveDiraction)
-            //{
-            //    case MovesDiraction.Normal:
-            //        return PreviousPlayer(GameState.ActivePlayer).Name;
-            //    case MovesDiraction.Inverted:
-            //        return NextPlayer(GameState.ActivePlayer).Name;
-            //    default:
-            //        throw new Exception("Unknnown game mode!");
-            //}
         }
         private void SerializeGame()
         {
