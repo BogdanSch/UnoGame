@@ -302,6 +302,20 @@ namespace UnoLogic
                 showState();
             }
         }
+        //public void Uno()
+        //{
+        //    if (ActivePlayer.Hand.Count == 1)
+        //    {
+        //        ActivePlayer.Uno = true;
+        //    }
+        //    foreach (Player player in Players)
+        //    {
+        //        if (player.Hand.Count == 1 && !player.Uno)
+        //        {
+        //            player.Hand.Add(Deck.Deal(2));
+        //        }
+        //    }
+        //}
         private bool IsBluff(Player bluffedPlayer, Card targetCard)
         {
             foreach (Card card in bluffedPlayer.Hand)
@@ -370,9 +384,9 @@ namespace UnoLogic
             Player bluffedPlayer = null;
 
             if (Table.LastCard.Figure == CardFigure.SquadCards)
-                bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
+                bluffedPlayer = GetPreviousPlayer(GetPreviousPlayer(ActivePlayer));
             else
-                bluffedPlayer = PreviousPlayer(ActivePlayer);
+                bluffedPlayer = GetPreviousPlayer(ActivePlayer);
 
             return bluffedPlayer;
         }
