@@ -25,7 +25,7 @@ namespace UnoLogic
         }
         private static readonly Random rnd = new Random();
         private readonly int maxCountCards = 5;
-        private bool isPassUsed = false;
+        public bool IsPassUsed = false;
 
         public UnoData GameState = new UnoData();
 
@@ -104,7 +104,7 @@ namespace UnoLogic
         {
             if (!Impossible(cardToTurn))
             {
-                isPassUsed = false;
+                IsPassUsed = false;
                 if (GameState.Table.Count > maxCountCards) ClearTable();
                 GameState.IsBluffed = false;
 
@@ -248,8 +248,7 @@ namespace UnoLogic
         }
         public void Pass()
         {
-            if (isPassUsed) return;
-            isPassUsed = true;
+            if (IsPassUsed) return;
 
             CheckPlayers();
             CheckWinner();
@@ -264,6 +263,7 @@ namespace UnoLogic
 
                 if (!Impossible(GameState.ActivePlayer.Hand.LastCard))
                 {
+                    IsPassUsed = true;
                     showState();
                     return;
                 }

@@ -75,6 +75,7 @@ namespace UnoForm
 
             string action = Game.GetPossibleActions();
 
+            bPass.Enabled = !Game.IsPassUsed;
             bBluff.Enabled = action.Contains("Bluff") && !Game.GameState.IsGameOver && !Game.GameState.IsBluffed;
         }
         private void ShowOrHide(CardSet set, bool isOpen)
@@ -146,6 +147,23 @@ namespace UnoForm
         private void UnoGameForm_Closing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+        private void GameForm_Resize(object sender, EventArgs e)
+        {
+            GraphicCardSet gDeck = Game.GameState.Deck as GraphicCardSet;
+            GraphicCardSet gTable = Game.GameState.Table as GraphicCardSet;
+
+            if(gDeck != null & gTable != null)
+            {
+                gDeck.Draw();
+                gTable.Draw();
+            }
+            foreach (Player player in Game.GameState.Players)
+            {
+                GraphicCardSet gSet = player.Hand as GraphicCardSet;
+
+                if (gSet != null) gSet.Draw();
+            }
         }
     }
 }
