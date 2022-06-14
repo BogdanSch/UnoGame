@@ -41,15 +41,19 @@ namespace UnoForm
             this.pbActiveCard = new System.Windows.Forms.PictureBox();
             this.bBluff = new System.Windows.Forms.Button();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.pTools = new System.Windows.Forms.Panel();
             this.pColor = new System.Windows.Forms.Panel();
             this.lHintColor = new System.Windows.Forms.Label();
             this.picColor = new System.Windows.Forms.PictureBox();
+            this.ToolsLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.pnlPass = new System.Windows.Forms.Panel();
+            this.pnlBluff = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pbActiveCard)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
-            this.pTools.SuspendLayout();
             this.pColor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picColor)).BeginInit();
+            this.ToolsLayout.SuspendLayout();
+            this.pnlPass.SuspendLayout();
+            this.pnlBluff.SuspendLayout();
             this.SuspendLayout();
             // 
             // pTable
@@ -102,7 +106,7 @@ namespace UnoForm
             // 
             // bPass
             // 
-            this.bPass.Location = new System.Drawing.Point(90, 12);
+            this.bPass.Location = new System.Drawing.Point(113, 3);
             this.bPass.Name = "bPass";
             this.bPass.Size = new System.Drawing.Size(85, 30);
             this.bPass.TabIndex = 5;
@@ -112,9 +116,10 @@ namespace UnoForm
             // 
             // lInfo
             // 
-            this.lInfo.Location = new System.Drawing.Point(59, 86);
+            this.lInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lInfo.Location = new System.Drawing.Point(3, 102);
             this.lInfo.Name = "lInfo";
-            this.lInfo.Size = new System.Drawing.Size(146, 51);
+            this.lInfo.Size = new System.Drawing.Size(300, 52);
             this.lInfo.TabIndex = 6;
             this.lInfo.Text = "Info";
             this.lInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -131,7 +136,7 @@ namespace UnoForm
             // 
             // bBluff
             // 
-            this.bBluff.Location = new System.Drawing.Point(90, 48);
+            this.bBluff.Location = new System.Drawing.Point(113, 3);
             this.bBluff.Name = "bBluff";
             this.bBluff.Size = new System.Drawing.Size(85, 30);
             this.bBluff.TabIndex = 8;
@@ -141,6 +146,7 @@ namespace UnoForm
             // 
             // tableLayoutPanel
             // 
+            this.tableLayoutPanel.BackgroundImage = global::UnoForm.Properties.Resources.Background;
             this.tableLayoutPanel.ColumnCount = 3;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.5F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27F));
@@ -151,8 +157,8 @@ namespace UnoForm
             this.tableLayoutPanel.Controls.Add(this.pTable, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.pPlr1, 0, 2);
             this.tableLayoutPanel.Controls.Add(this.pPlr2, 2, 2);
-            this.tableLayoutPanel.Controls.Add(this.pTools, 2, 1);
             this.tableLayoutPanel.Controls.Add(this.pColor, 1, 0);
+            this.tableLayoutPanel.Controls.Add(this.ToolsLayout, 2, 1);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -162,17 +168,6 @@ namespace UnoForm
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(853, 480);
             this.tableLayoutPanel.TabIndex = 9;
-            // 
-            // pTools
-            // 
-            this.pTools.Controls.Add(this.bPass);
-            this.pTools.Controls.Add(this.bBluff);
-            this.pTools.Controls.Add(this.lInfo);
-            this.pTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pTools.Location = new System.Drawing.Point(544, 163);
-            this.pTools.Name = "pTools";
-            this.pTools.Size = new System.Drawing.Size(306, 154);
-            this.pTools.TabIndex = 5;
             // 
             // pColor
             // 
@@ -203,10 +198,46 @@ namespace UnoForm
             this.picColor.TabIndex = 0;
             this.picColor.TabStop = false;
             // 
+            // ToolsLayout
+            // 
+            this.ToolsLayout.ColumnCount = 1;
+            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ToolsLayout.Controls.Add(this.lInfo, 0, 2);
+            this.ToolsLayout.Controls.Add(this.pnlPass, 0, 0);
+            this.ToolsLayout.Controls.Add(this.pnlBluff, 0, 1);
+            this.ToolsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ToolsLayout.Location = new System.Drawing.Point(544, 163);
+            this.ToolsLayout.Name = "ToolsLayout";
+            this.ToolsLayout.RowCount = 3;
+            this.ToolsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.ToolsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.ToolsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.ToolsLayout.Size = new System.Drawing.Size(306, 154);
+            this.ToolsLayout.TabIndex = 7;
+            // 
+            // pnlPass
+            // 
+            this.pnlPass.Controls.Add(this.bPass);
+            this.pnlPass.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlPass.Location = new System.Drawing.Point(3, 3);
+            this.pnlPass.Name = "pnlPass";
+            this.pnlPass.Size = new System.Drawing.Size(300, 45);
+            this.pnlPass.TabIndex = 9;
+            // 
+            // pnlBluff
+            // 
+            this.pnlBluff.Controls.Add(this.bBluff);
+            this.pnlBluff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlBluff.Location = new System.Drawing.Point(3, 54);
+            this.pnlBluff.Name = "pnlBluff";
+            this.pnlBluff.Size = new System.Drawing.Size(300, 45);
+            this.pnlBluff.TabIndex = 10;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(853, 480);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.pbActiveCard);
@@ -214,13 +245,15 @@ namespace UnoForm
             this.Name = "GameForm";
             this.Text = "Uno Game";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnoGameForm_Closing);
-            this.ResizeEnd += new System.EventHandler(this.GameForm_Resize);
+            this.ResizeEnd += new System.EventHandler(this.GameForm_ResizeEnded);
             ((System.ComponentModel.ISupportInitialize)(this.pbActiveCard)).EndInit();
             this.tableLayoutPanel.ResumeLayout(false);
-            this.pTools.ResumeLayout(false);
             this.pColor.ResumeLayout(false);
             this.pColor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picColor)).EndInit();
+            this.ToolsLayout.ResumeLayout(false);
+            this.pnlPass.ResumeLayout(false);
+            this.pnlBluff.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -238,9 +271,11 @@ namespace UnoForm
         private System.Windows.Forms.PictureBox pbActiveCard;
         private System.Windows.Forms.Button bBluff;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.Panel pTools;
         private System.Windows.Forms.Panel pColor;
         private System.Windows.Forms.PictureBox picColor;
         private System.Windows.Forms.Label lHintColor;
+        private TableLayoutPanel ToolsLayout;
+        private Panel pnlPass;
+        private Panel pnlBluff;
     }
 }

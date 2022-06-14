@@ -29,8 +29,8 @@ namespace UnoLogic
         public UnoData GameState = new UnoData();
 
         private Player bluffer;
-        private Player passer;
         private Player fakeBluffer;
+        private Player passer;
         
         public string StateInfo
         {

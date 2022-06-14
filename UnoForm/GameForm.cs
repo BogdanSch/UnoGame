@@ -13,9 +13,9 @@ namespace UnoForm
 {
     public partial class GameForm : Form
     {
-        GraphicCard ActiveCard;
+        private GraphicCard ActiveCard;
         public static UnoGame Game;
-        Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
+        private Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
 
         public GameForm()
         {
@@ -62,6 +62,7 @@ namespace UnoForm
         {
             ShowOrHide(Game.GameState.Table, true);
             ShowOrHide(Game.GameState.Deck, false);
+
             foreach (Player player in Game.GameState.Players)
             {
                 ShowOrHide(player.Hand, player == Game.GameState.ActivePlayer);
@@ -148,7 +149,7 @@ namespace UnoForm
         {
             Application.Exit();
         }
-        private void GameForm_Resize(object sender, EventArgs e)
+        private void GameForm_ResizeEnded(object sender, EventArgs e)
         {
             GraphicCardSet gDeck = Game.GameState.Deck as GraphicCardSet;
             GraphicCardSet gTable = Game.GameState.Table as GraphicCardSet;
@@ -161,8 +162,8 @@ namespace UnoForm
             foreach (Player player in Game.GameState.Players)
             {
                 GraphicCardSet gSet = player.Hand as GraphicCardSet;
-
-                if (gSet != null) gSet.Draw();
+                if (gSet != null) 
+                    gSet.Draw();
             }
         }
     }
