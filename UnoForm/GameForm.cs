@@ -75,7 +75,7 @@ namespace UnoForm
 
             string action = Game.GetPossibleActions();
 
-            bPass.Enabled = !Game.IsPassUsed;
+            bPass.Enabled = !Game.GameState.IsPassUsed;
             bBluff.Enabled = action.Contains("Bluff") && !Game.GameState.IsGameOver && !Game.GameState.IsBluffed;
         }
         private void ShowOrHide(CardSet set, bool isOpen)

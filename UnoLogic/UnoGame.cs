@@ -25,7 +25,6 @@ namespace UnoLogic
         }
         private static readonly Random rnd = new Random();
         private readonly int maxCountCards = 5;
-        public bool IsPassUsed = false;
 
         public UnoData GameState = new UnoData();
 
@@ -104,8 +103,9 @@ namespace UnoLogic
         {
             if (!Impossible(cardToTurn))
             {
-                IsPassUsed = false;
                 if (GameState.Table.Count > maxCountCards) ClearTable();
+
+                GameState.IsPassUsed = false;
                 GameState.IsBluffed = false;
 
                 mode = Mode.Move;
@@ -120,6 +120,7 @@ namespace UnoLogic
 
                 GameState.ResultInfo = "";
                 showState();
+
                 SerializeGame();
             }
         }
@@ -248,7 +249,7 @@ namespace UnoLogic
         }
         public void Pass()
         {
-            if (IsPassUsed) return;
+            if (GameState.IsPassUsed) return;
 
             CheckPlayers();
             CheckWinner();
@@ -263,7 +264,7 @@ namespace UnoLogic
 
                 if (!Impossible(GameState.ActivePlayer.Hand.LastCard))
                 {
-                    IsPassUsed = true;
+                    GameState.IsPassUsed = true;
                     showState();
                     return;
                 }
@@ -451,6 +452,19 @@ namespace UnoLogic
             using (FileStream fs = new FileStream("Game.xml", FileMode.Create))
             {
                 xmlSerializer.Serialize(fs, GameState);
+            }
+        }
+        private void DeserializeGame()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(GameState.GetType());
+
+            using (FileStream fs = new FileStream("Game.xml", FileMode.OpenOrCreate))
+            {
+                UnoData state = xmlSerializer.Deserialize(fs) as UnoData;
+                if(state != null)
+                {
+                    GameState = state;
+                }
             }
         }
     }

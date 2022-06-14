@@ -22,6 +22,7 @@ namespace UnoLogic
         public MovesDiraction MoveDiraction { get; set; } = MovesDiraction.Normal;
         public bool IsBluffed { get; set; } = false;
         public bool CanBeat { get; set; } = false;
+        public bool IsPassUsed { get; set; } = false;
 
     }
 }
