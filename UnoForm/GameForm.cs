@@ -49,7 +49,7 @@ namespace UnoForm
         {
             CardColor targetColor;
 
-            ChooseColorForm form = new ChooseColorForm();
+            PickColorForm form = new PickColorForm();
             form.ShowDialog();
 
             targetColor = form.ChosedColor;

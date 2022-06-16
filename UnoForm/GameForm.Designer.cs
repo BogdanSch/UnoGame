@@ -58,6 +58,7 @@ namespace UnoForm
             // 
             // pTable
             // 
+            this.pTable.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pTable.Location = new System.Drawing.Point(314, 163);
             this.pTable.Name = "pTable";
@@ -66,6 +67,7 @@ namespace UnoForm
             // 
             // pPlr1
             // 
+            this.pPlr1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pPlr1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr1.Location = new System.Drawing.Point(3, 323);
             this.pPlr1.Name = "pPlr1";
@@ -74,6 +76,7 @@ namespace UnoForm
             // 
             // pPlr4
             // 
+            this.pPlr4.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pPlr4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr4.Location = new System.Drawing.Point(3, 3);
             this.pPlr4.Name = "pPlr4";
@@ -82,6 +85,7 @@ namespace UnoForm
             // 
             // pPlr3
             // 
+            this.pPlr3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pPlr3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr3.Location = new System.Drawing.Point(544, 3);
             this.pPlr3.Name = "pPlr3";
@@ -90,6 +94,7 @@ namespace UnoForm
             // 
             // pPlr2
             // 
+            this.pPlr2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pPlr2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pPlr2.Location = new System.Drawing.Point(544, 323);
             this.pPlr2.Name = "pPlr2";

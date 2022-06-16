@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 namespace UnoForm
 {
-    public partial class ChooseColorForm : Form 
+    public partial class PickColorForm : Form 
     {
         public CardColor ChosedColor;
         public Color PicColor = Color.Green;
 
-        public ChooseColorForm()
+        public PickColorForm()
         {
             InitializeComponent();
         }

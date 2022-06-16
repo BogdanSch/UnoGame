@@ -98,6 +98,10 @@ namespace UnoLogic
 
             showState();
         }
+        private void ClearTable()
+        {
+            GameState.Table.CutTo(GameState.Table.Count - 1);
+        }
 
         public void Turn(Card cardToTurn)
         {
@@ -116,7 +120,7 @@ namespace UnoLogic
 
                 CheckCardSpecialPower(cardToTurn);
 
-                GetNewActivePlayer();
+                GetNextActivePlayer();
 
                 GameState.ResultInfo = "";
                 showState();
@@ -131,7 +135,7 @@ namespace UnoLogic
                 case CardFigure.Block:
                     if (ContainsCardToBeat(GetNextPlayer(GameState.ActivePlayer), cardToTurn.Figure))
                         return;
-                    GetNewActivePlayer();
+                    GetNextActivePlayer();
                     break;
                 case CardFigure.Switcher:
                     SwitchMovesMode();
@@ -142,7 +146,7 @@ namespace UnoLogic
                         if (ContainsCardToBeat(GetNextPlayer(GameState.ActivePlayer), cardToTurn.Figure))
                             return;
 
-                        GetNewActivePlayer();
+                        GetNextActivePlayer();
 
                         if (GameState.Deck.Count < 2)
                         {
@@ -161,7 +165,7 @@ namespace UnoLogic
                     {
                         if(ContainsCardToBeat(GetNextPlayer(GameState.ActivePlayer), cardToTurn.Figure))
                             return;
-                        GetNewActivePlayer();
+                        GetNextActivePlayer();
                         if(GameState.Deck.Count < 4)
                         {
                             GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
@@ -205,17 +209,17 @@ namespace UnoLogic
                 if (GameState.Players[i].Hand.Count <= 0)
                     GameState.Players[i].IsInGame = false;
             }
-            //foreach (Player player in GameState.Players)
-            //{
-            //    if (player.Hand.Count > 1)
-            //        player.Uno = false;
-            //}
+            foreach (Player player in GameState.Players)
+            {
+                if (player.Hand.Count > 1)
+                    player.Uno = false;
+            }
         }
         private void CheckWinner()
         {
             int playersInGame = GameState.Players.Count(p => p.IsInGame);
 
-            if (!PlayersContainsCardToTurn())
+            if (!PlayersContainsCardToBeat())
             {
                 GameState.IsGameOver = true;
                 GameState.ResultInfo = "No one has a card to do a turn! \n Game over!";
@@ -232,7 +236,7 @@ namespace UnoLogic
             }
             showState();
         }
-        private bool PlayersContainsCardToTurn()
+        private bool PlayersContainsCardToBeat()
         {
             List<Player> leftPlayers = GameState.Players.FindAll(p => p.IsInGame && p.Hand.Count > 0);
 
@@ -269,12 +273,12 @@ namespace UnoLogic
                     return;
                 }
 
-                GetNewActivePlayer();
+                GetNextActivePlayer();
                 showState();
             }
             else
             {
-                GetNewActivePlayer();
+                GetNextActivePlayer();
                 showState();
             }
         }
@@ -292,7 +296,8 @@ namespace UnoLogic
                 bluffer = bluffedPlayer;
                 if (GameState.Deck.Count >= 2)
                     bluffedPlayer.Hand.Add(GameState.Deck.Deal(2));
-                else bluffedPlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
+                else if (GameState.Deck.Count == 1) 
+                    bluffedPlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
 
                 GameState.IsBluffed = true;
                 bluffedPlayer.Hand.Sort();
@@ -307,9 +312,10 @@ namespace UnoLogic
                 {
                     GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(2));
                 }
-                else GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
+                else if(GameState.Deck.Count == 1) 
+                    GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
                 GameState.ActivePlayer.Hand.Sort();
-                GetNewActivePlayer();
+                GetNextActivePlayer();
                 showState();
             }
         }
@@ -335,10 +341,6 @@ namespace UnoLogic
                     return true;
             }
             return false;
-        }
-        private void ClearTable()
-        {
-            GameState.Table.CutTo(GameState.Table.Count - 1);
         }
         private bool Impossible(Card cardToTurn)
         {
@@ -386,13 +388,13 @@ namespace UnoLogic
             }
             return card;
         }
-        private void GetNewActivePlayer()
+        private void GetNextActivePlayer()
         {
             GameState.ActivePlayer = GetNextPlayer(GameState.ActivePlayer);
         }
         private Player GetBluffedPlayer()
         {
-            Player bluffedPlayer = null;
+            Player bluffedPlayer;
 
             if (GameState.Table.LastCard.Figure == CardFigure.SquadCards)
                 bluffedPlayer = GetPreviousPlayer(GetPreviousPlayer(GameState.ActivePlayer));
