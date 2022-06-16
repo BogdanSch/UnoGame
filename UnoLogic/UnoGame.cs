@@ -294,14 +294,14 @@ namespace UnoLogic
             {
                 mode = Mode.Bluff;
                 bluffer = bluffedPlayer;
+
                 if (GameState.Deck.Count >= 2)
                     bluffedPlayer.Hand.Add(GameState.Deck.Deal(2));
                 else if (GameState.Deck.Count == 1) 
-                    bluffedPlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
+                    bluffedPlayer.Hand.Add(GameState.Deck.Deal(1));
 
                 GameState.IsBluffed = true;
                 bluffedPlayer.Hand.Sort();
-                showState();
             }
             else
             {
@@ -310,14 +310,24 @@ namespace UnoLogic
 
                 if (GameState.Deck.Count >= 2)
                 {
-                    GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(2));
+                    fakeBluffer.Hand.Add(GameState.Deck.Deal(2));
                 }
-                else if(GameState.Deck.Count == 1) 
-                    GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
-                GameState.ActivePlayer.Hand.Sort();
+                else if(GameState.Deck.Count == 1)
+                    fakeBluffer.Hand.Add(GameState.Deck.Deal(1));
+
+                fakeBluffer.Hand.Sort();
                 GetNextActivePlayer();
-                showState();
             }
+            showState();
+        }
+        private bool IsBluff(Player bluffedPlayer, Card targetCard)
+        {
+            foreach (Card card in bluffedPlayer.Hand)
+            {
+                if (card.Color == targetCard.Color || card.Figure == targetCard.Figure)
+                    return true;
+            }
+            return false;
         }
         //public void Uno()
         //{
@@ -333,19 +343,11 @@ namespace UnoLogic
         //        }
         //    }
         //}
-        private bool IsBluff(Player bluffedPlayer, Card targetCard)
-        {
-            foreach (Card card in bluffedPlayer.Hand)
-            {
-                if (card.Color == targetCard.Color || card.Figure == targetCard.Figure)
-                    return true;
-            }
-            return false;
-        }
         private bool Impossible(Card cardToTurn)
         {
             return GameState.IsGameOver ||
                 !GameState.ActivePlayer.Hand.Contains(cardToTurn) ||
+                GameState.Players.Count == 0 ||
                 !IsBeat(cardToTurn, GameState.Table.LastCard);
         }
         private bool IsBeat(Card front, Card back)
@@ -408,10 +410,10 @@ namespace UnoLogic
             switch (GameState.MoveDiraction)
             {
                 case MovesDiraction.Normal:
-                    player = NextPlayer(GameState.ActivePlayer);
+                    player = NextPlayer(player);
                     break;
                 case MovesDiraction.Inverted:
-                    player = PreviousPlayer(GameState.ActivePlayer);
+                    player = PreviousPlayer(player);
                     break;
                 default:
                     throw new Exception("We can't find new player!");
@@ -424,10 +426,10 @@ namespace UnoLogic
             switch (GameState.MoveDiraction)
             {
                 case MovesDiraction.Normal:
-                    player = PreviousPlayer(GameState.ActivePlayer);
+                    player = PreviousPlayer(player);
                     break;
                 case MovesDiraction.Inverted:
-                    player = NextPlayer(GameState.ActivePlayer);
+                    player = NextPlayer(player);
                     break;
                 default:
                     throw new Exception("We can't find new player!");

@@ -149,12 +149,12 @@ namespace UnoForm
         {
             Application.Exit();
         }
-        private void GameForm_ResizeEnded(object sender, EventArgs e)
+        private void GameForm_ClientSizeChanged(object sender, EventArgs e)
         {
             GraphicCardSet gDeck = Game.GameState.Deck as GraphicCardSet;
             GraphicCardSet gTable = Game.GameState.Table as GraphicCardSet;
 
-            if(gDeck != null & gTable != null)
+            if (gDeck != null & gTable != null)
             {
                 gDeck.Draw();
                 gTable.Draw();
@@ -162,7 +162,7 @@ namespace UnoForm
             foreach (Player player in Game.GameState.Players)
             {
                 GraphicCardSet gSet = player.Hand as GraphicCardSet;
-                if (gSet != null) 
+                if (gSet != null)
                     gSet.Draw();
             }
         }
