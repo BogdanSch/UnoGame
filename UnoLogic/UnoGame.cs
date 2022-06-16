@@ -328,20 +328,20 @@ namespace UnoLogic
             }
             return false;
         }
-        //public void Uno()
-        //{
-        //    if (ActivePlayer.Hand.Count == 1)
-        //    {
-        //        ActivePlayer.Uno = true;
-        //    }
-        //    foreach (Player player in Players)
-        //    {
-        //        if (player.Hand.Count == 1 && !player.Uno)
-        //        {
-        //            player.Hand.Add(Deck.Deal(2));
-        //        }
-        //    }
-        //}
+        public void Uno()
+        {
+            if (GameState.ActivePlayer.Hand.Count == 1)
+            {
+                GameState.ActivePlayer.Uno = true;
+            }
+            foreach (Player player in GameState.Players)
+            {
+                if (player.Hand.Count == 1 && !player.Uno)
+                {
+                    player.Hand.Add(GameState.Deck.Deal(2));
+                }
+            }
+        }
         private bool Impossible(Card cardToTurn)
         {
             return GameState.IsGameOver ||

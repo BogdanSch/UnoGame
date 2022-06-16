@@ -23,6 +23,7 @@ namespace UnoLogic
         public bool IsBluffed { get; set; } = false;
         public bool CanBeat { get; set; } = false;
         public bool IsPassUsed { get; set; } = false;
+        public int DeallNumber { get; set; } = 0;
 
     }
 }
