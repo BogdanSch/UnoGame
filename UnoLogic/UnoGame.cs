@@ -45,7 +45,7 @@ namespace UnoLogic
                     case Mode.Bluff:
                         return $"{bluffer.Name} has bluffed";
                     case Mode.FakeBluff:
-                        return $"{fakeBluffer.Name} has bluffed";
+                        return $"{fakeBluffer.Name} is a fake bluffer";
                     default:
                         throw new Exception("We don't know this game mode!");
                 }
@@ -219,7 +219,7 @@ namespace UnoLogic
         {
             int playersInGame = GameState.Players.Count(p => p.IsInGame);
 
-            if (!PlayersContainsCardToBeat())
+            if (!PlayersContainsCardToBeat() && GameState.Deck.Count == 0)
             {
                 GameState.IsGameOver = true;
                 GameState.ResultInfo = "No one has a card to do a turn! \n Game over!";
