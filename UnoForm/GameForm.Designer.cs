@@ -110,9 +110,9 @@ namespace UnoForm
             // bPass
             // 
             this.bPass.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bPass.Location = new System.Drawing.Point(82, 3);
+            this.bPass.Location = new System.Drawing.Point(97, 3);
             this.bPass.Name = "bPass";
-            this.bPass.Size = new System.Drawing.Size(152, 47);
+            this.bPass.Size = new System.Drawing.Size(120, 47);
             this.bPass.TabIndex = 5;
             this.bPass.Text = "Pass";
             this.bPass.UseVisualStyleBackColor = true;
@@ -121,9 +121,9 @@ namespace UnoForm
             // lInfo
             // 
             this.lInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lInfo.Location = new System.Drawing.Point(82, 106);
+            this.lInfo.Location = new System.Drawing.Point(97, 106);
             this.lInfo.Name = "lInfo";
-            this.lInfo.Size = new System.Drawing.Size(152, 55);
+            this.lInfo.Size = new System.Drawing.Size(120, 55);
             this.lInfo.TabIndex = 6;
             this.lInfo.Text = "Info";
             this.lInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -141,9 +141,9 @@ namespace UnoForm
             // bBluff
             // 
             this.bBluff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bBluff.Location = new System.Drawing.Point(82, 56);
+            this.bBluff.Location = new System.Drawing.Point(97, 56);
             this.bBluff.Name = "bBluff";
-            this.bBluff.Size = new System.Drawing.Size(152, 47);
+            this.bBluff.Size = new System.Drawing.Size(120, 47);
             this.bBluff.TabIndex = 8;
             this.bBluff.Text = "Bluff";
             this.bBluff.UseVisualStyleBackColor = true;
@@ -206,9 +206,9 @@ namespace UnoForm
             // ToolsLayout
             // 
             this.ToolsLayout.ColumnCount = 3;
-            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.ToolsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.ToolsLayout.Controls.Add(this.bBluff, 1, 1);
             this.ToolsLayout.Controls.Add(this.bPass, 1, 0);
             this.ToolsLayout.Controls.Add(this.pnlPass, 0, 0);
@@ -229,7 +229,7 @@ namespace UnoForm
             this.pnlPass.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPass.Location = new System.Drawing.Point(3, 3);
             this.pnlPass.Name = "pnlPass";
-            this.pnlPass.Size = new System.Drawing.Size(73, 47);
+            this.pnlPass.Size = new System.Drawing.Size(88, 47);
             this.pnlPass.TabIndex = 9;
             // 
             // pnlBluff
@@ -237,7 +237,7 @@ namespace UnoForm
             this.pnlBluff.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBluff.Location = new System.Drawing.Point(3, 56);
             this.pnlBluff.Name = "pnlBluff";
-            this.pnlBluff.Size = new System.Drawing.Size(73, 47);
+            this.pnlBluff.Size = new System.Drawing.Size(88, 47);
             this.pnlBluff.TabIndex = 10;
             // 
             // GameForm

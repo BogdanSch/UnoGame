@@ -24,7 +24,7 @@ namespace UnoLogic
             Inverted
         }
         private static readonly Random rnd = new Random();
-        private readonly int maxCountCards = 5;
+        private readonly int maxCountCards = 6;
 
         public UnoData GameState = new UnoData();
 
@@ -244,9 +244,8 @@ namespace UnoLogic
             {
                 foreach (Card c in player.Hand)
                 {
-                    if(GameState.Deck.Count > 0)
-                        if (c.Color == GameState.Deck.LastCard.Color || c.Figure == GameState.Deck.LastCard.Figure || c.Color == CardColor.Black)
-                            return true;
+                    if (c.Color == GameState.Table.LastCard.Color || c.Figure == GameState.Table.LastCard.Figure || c.Color == CardColor.Black)
+                        return true;
                 }
             }
             return false;
