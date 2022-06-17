@@ -70,6 +70,10 @@ namespace UnoForm
             if (Game.GameState.IsGameOver) 
             {
                 lInfo.Text = $"{Game.GameState.ResultInfo}";
+                foreach (Player player in Game.GameState.Players)
+                {
+                    ShowOrHide(player.Hand, true);
+                }
                 return;
             }
             lInfo.Text = $"{Game.GameState.ResultInfo}... {Game.StateInfo}";
