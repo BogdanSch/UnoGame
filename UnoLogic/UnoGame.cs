@@ -227,7 +227,7 @@ namespace UnoLogic
                 GameState.ResultInfo = "No one has a card to do a turn! \n Game over!";
             }
             if (playersInGame == 1)
-            {
+            {  
                 GameState.IsGameOver = true;
                 GameState.ResultInfo = $"{GameState.Players.FirstOrDefault(p => p.IsInGame).Name} loose!";
             }
@@ -268,15 +268,16 @@ namespace UnoLogic
             if(GameState.Deck.Count > 0)
             {
                 GameState.ActivePlayer.Hand.Add(GameState.Deck.Pull(GameState.Deck.Count - 1));
-                GameState.ActivePlayer.Hand.Sort();
 
                 if (!Impossible(GameState.ActivePlayer.Hand.LastCard))
                 {
+                    GameState.ActivePlayer.Hand.Sort();
                     GameState.IsPassUsed = true;
                     showState();
                     return;
                 }
 
+                GameState.ActivePlayer.Hand.Sort();
                 GetNextActivePlayer();
                 showState();
             }
