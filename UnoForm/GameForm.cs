@@ -60,19 +60,19 @@ namespace UnoForm
         }
         private void ShowState()
         {
-            ShowOrHide(Game.GameState.Table, true);
-            ShowOrHide(Game.GameState.Deck, false);
+            ShowCards(Game.GameState.Table, true);
+            ShowCards(Game.GameState.Deck, false);
 
             foreach (Player player in Game.GameState.Players)
             {
-                ShowOrHide(player.Hand, player == Game.GameState.ActivePlayer);
+                ShowCards(player.Hand, player == Game.GameState.ActivePlayer);
             }
             if (Game.GameState.IsGameOver) 
             {
                 lInfo.Text = $"{Game.GameState.ResultInfo}";
                 foreach (Player player in Game.GameState.Players)
                 {
-                    ShowOrHide(player.Hand, true);
+                    ShowCards(player.Hand, true);
                 }
                 return;
             }
@@ -83,7 +83,7 @@ namespace UnoForm
             bPass.Enabled = !Game.GameState.IsPassUsed;
             bBluff.Enabled = action.Contains("Bluff") && !Game.GameState.IsGameOver && !Game.GameState.IsBluffed;
         }
-        private void ShowOrHide(CardSet set, bool isOpen)
+        private void ShowCards(CardSet set, bool isOpen)
         {
             GraphicCardSet gSet = set as GraphicCardSet;
 

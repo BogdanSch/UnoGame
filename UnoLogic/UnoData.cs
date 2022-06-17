@@ -21,7 +21,7 @@ namespace UnoLogic
         public CardColor ChosedColor { get; set; }
         public MovesDiraction MoveDiraction { get; set; } = MovesDiraction.Normal;
         public bool IsBluffed { get; set; } = false;
-        public bool CanBeat { get; set; } = false;
+        public bool CanBeatSpeciallCard { get; set; } = false;
         public bool IsPassUsed { get; set; } = false;
         public int DeallNumber { get; set; } = 0;
 

@@ -182,7 +182,9 @@ namespace UnoLogic
             {
                 if (card.Figure == figure)
                 {
-                    GameState.CanBeat = true;
+                    GameState.CanBeatSpeciallCard = true;
+                    GameState.IsPassUsed = true;
+                    GameState.IsBluffed = true;
                     return true;
                 }
             }
@@ -244,7 +246,10 @@ namespace UnoLogic
             {
                 foreach (Card c in player.Hand)
                 {
-                    if (c.Color == GameState.Table.LastCard.Color || c.Figure == GameState.Table.LastCard.Figure || c.Color == CardColor.Black)
+                    if (c.Color == GameState.Table.LastCard.Color || 
+                        c.Figure == GameState.Table.LastCard.Figure ||
+                        c.Color == CardColor.Black ||
+                        c.Color == GameState.ChosedColor)
                         return true;
                 }
             }
@@ -351,10 +356,14 @@ namespace UnoLogic
         }
         private bool IsBeat(Card front, Card back)
         {
-            if (GameState.CanBeat)
+            if (GameState.CanBeatSpeciallCard)
             {
-                GameState.CanBeat = false;
-                return front.Figure == back.Figure;
+                if(front.Figure == back.Figure)
+                {
+                    GameState.CanBeatSpeciallCard = false;
+                    return true;
+                }
+                return false;
             }
            if(GameState.Table.LastCard.Color == CardColor.Black)
                return front.Color == back.Color ||
