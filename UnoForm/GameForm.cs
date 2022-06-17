@@ -80,7 +80,7 @@ namespace UnoForm
 
             string action = Game.GetPossibleActions();
 
-            bPass.Enabled = !Game.GameState.IsPassUsed;
+            bPass.Enabled = !Game.GameState.IsPassUsed && !Game.GameState.IsGameOver;
             bBluff.Enabled = action.Contains("Bluff") && !Game.GameState.IsGameOver && !Game.GameState.IsBluffed;
         }
         private void ShowCards(CardSet set, bool isOpen)

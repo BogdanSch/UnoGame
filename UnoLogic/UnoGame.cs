@@ -114,15 +114,15 @@ namespace UnoLogic
 
                 mode = Mode.Move;
                 GameState.Table.Add(GameState.ActivePlayer.Hand.Pull(cardToTurn));
-
-                CheckPlayers();
-                CheckWinner();
-
                 CheckCardSpecialPower(cardToTurn);
 
                 GetNextActivePlayer();
 
                 GameState.ResultInfo = "";
+
+                CheckPlayers();
+                CheckWinner();
+
                 showState();
 
                 SerializeGame();
@@ -249,7 +249,7 @@ namespace UnoLogic
                     if (c.Color == GameState.Table.LastCard.Color || 
                         c.Figure == GameState.Table.LastCard.Figure ||
                         c.Color == CardColor.Black ||
-                        c.Color == GameState.ChosedColor)
+                        (c.Color == GameState.ChosedColor && GameState.Table.LastCard.Color == CardColor.Black))
                         return true;
                 }
             }
