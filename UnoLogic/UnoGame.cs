@@ -5,21 +5,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace UnoLogic
 {
-    [XmlInclude(typeof(GraphicCard))]
-    [Serializable]
     public class UnoGame
     {
         enum Mode
         {
             Move,
             Pass,
-            Bluff
+            Bluff,
+            FakeBluff
         }
         public enum MovesDiraction
         {
@@ -28,14 +25,13 @@ namespace UnoLogic
         }
         private static readonly Random rnd = new Random();
         private readonly int maxCountCards = 6;
-        public List<Player> Players { get; set; }
-        public CardSet Deck { get; set; }
-        public CardSet Table { get; set; }
-        public bool IsGameOver { get; set; } = false;
-        public string ResultInfo { get; set; }
-        public Player ActivePlayer { get; set; }
-        public CardColor ChosedColor { get; set; }
-        public MovesDiraction MoveDiraction { get; set; } = MovesDiraction.Normal;
+
+        public UnoData GameState = new UnoData();
+
+        private Player bluffer;
+        private Player fakeBluffer;
+        private Player passer;
+        
         public string StateInfo
         {
             get
@@ -43,11 +39,13 @@ namespace UnoLogic
                 switch (mode)
                 {
                     case Mode.Move:
-                        return $"{ActivePlayer.Name}!! This is your turn";
+                        return $"{GameState.ActivePlayer.Name}!! This is your turn";
                     case Mode.Pass:
-                        return $"{GetPasserName()} is passing";
+                        return $"{passer.Name} is passing";
                     case Mode.Bluff:
-                        return $"{GetBlufferName()} has bluffed";
+                        return $"{bluffer.Name} has bluffed";
+                    case Mode.FakeBluff:
+                        return $"{fakeBluffer.Name} is a fake bluffer";
                     default:
                         throw new Exception("We don't know this game mode!");
                 }
@@ -55,7 +53,7 @@ namespace UnoLogic
         }
         public string GetPossibleActions()
         {
-            if (Table.LastCard.Color == CardColor.Black)
+            if (GameState.Table.LastCard.Color == CardColor.Black)
                 return "Bluff";
             return "Pass";
         }
@@ -65,60 +63,66 @@ namespace UnoLogic
 
         public UnoGame(List<Player> players, Action showState,  Func<CardColor> changeColor)
         {
-            Players = players;
+            GameState.Players = players;
             this.showState = showState;
             this.changeColor = changeColor;
-            Table = new CardSet();
-            Deck = new CardSet();
+            GameState.Table = new CardSet();
+            GameState.Deck = new CardSet();
         }
         public UnoGame() { }
         public void Prepare()
         {
-            foreach (Player player in Players)
+            foreach (Player player in GameState.Players)
             {
                 player.IsInGame = true;
             }
-            Deck.Full();
-            Deck.Shuffle();
-            Deck.CutTo(46);
+            GameState.Deck.Full();
+            GameState.Deck.Shuffle();
+            GameState.Deck.CutTo(46);
         }
         public void Deal()
         {
-            IsGameOver = false;
+            GameState.IsGameOver = false;
 
-            foreach (Player player in Players)
+            foreach (Player player in GameState.Players)
             {
-                player.Hand.Add(Deck.Deal(7));
+                player.Hand.Add(GameState.Deck.Deal(7));
                 player.Hand.Sort();
             }
 
-            ResultInfo = "All right!";
+            GameState.ResultInfo = "All right!";
             mode = Mode.Move;
 
-            ActivePlayer = WhoFirst();
-            Table.Add(GetFirstCard());
+            GameState.ActivePlayer = WhoFirst();
+            GameState.Table.Add(GetFirstCard());
 
             showState();
+        }
+        private void ClearTable()
+        {
+            GameState.Table.CutTo(GameState.Table.Count - 1);
         }
 
         public void Turn(Card cardToTurn)
         {
             if (!Impossible(cardToTurn))
             {
-                if (Table.Count > maxCountCards) ClearTable();
+                if (GameState.Table.Count > maxCountCards) ClearTable();
+
+                GameState.IsPassUsed = false;
+                GameState.IsBluffed = false;
 
                 mode = Mode.Move;
-                Table.Add(ActivePlayer.Hand.Pull(cardToTurn));
+                GameState.Table.Add(GameState.ActivePlayer.Hand.Pull(cardToTurn));
+                CheckCardSpecialPower(cardToTurn);
+
+                GetNextActivePlayer();
+
+                GameState.ResultInfo = "";
 
                 CheckPlayers();
                 CheckWinner();
 
-                CheckCardSpecialPower(cardToTurn);
-
-                CheckPlayers();
-                GetNewActivePlayer();
-
-                ResultInfo = "";
                 showState();
                 SerializeGame();
             }
@@ -128,40 +132,72 @@ namespace UnoLogic
             switch (cardToTurn.Figure)
             {
                 case CardFigure.Block:
-                    GetNewActivePlayer();
+                    if (ContainsCardToBeat(GetNextPlayer(GameState.ActivePlayer), cardToTurn.Figure))
+                        return;
+                    GetNextActivePlayer();
                     break;
                 case CardFigure.Switcher:
                     SwitchMovesMode();
                     break;
                 case CardFigure.DoubleCards:
-                    if (Deck.Count > 0)
+                    if (GameState.Deck.Count > 0)
                     {
-                        GetNewActivePlayer();
-                        ActivePlayer.Hand.Add(Deck.Deal(2));
+                        if (ContainsCardToBeat(GetNextPlayer(GameState.ActivePlayer), cardToTurn.Figure))
+                            return;
+
+                        GetNextActivePlayer();
+
+                        if (GameState.Deck.Count < 2)
+                        {
+                            GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
+                            return;
+                        }
+                        GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(2));
                     }
                     break;
                 case CardFigure.ColorSwitcher:
-                    ChosedColor = changeColor();
+                    GameState.ChosedColor = changeColor();
                     break;
                 case CardFigure.SquadCards:
-                    ChosedColor = changeColor();
-                    if(Deck.Count > 0)
+                    GameState.ChosedColor = changeColor();
+                    if(GameState.Deck.Count > 0)
                     {
-                        GetNewActivePlayer();
-                        ActivePlayer.Hand.Add(Deck.Deal(4));
+                        if(ContainsCardToBeat(GetNextPlayer(GameState.ActivePlayer), cardToTurn.Figure))
+                            return;
+                        GetNextActivePlayer();
+                        if(GameState.Deck.Count < 4)
+                        {
+                            GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
+                            return;
+                        }
+                        GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(4));
                     }
                     break;
             }
         }
+        private bool ContainsCardToBeat(Player player, CardFigure figure)
+        {
+            foreach (Card card in player.Hand)
+            {
+                if (card.Figure == figure)
+                {
+                    GameState.CanBeatSpeciallCard = true;
+                    GameState.IsPassUsed = true;
+                    GameState.IsBluffed = true;
+                    return true;
+                }
+            }
+            return false;
+        }
         private void SwitchMovesMode()
         {
-            switch (MoveDiraction)
+            switch (GameState.MoveDiraction)
             {
                 case MovesDiraction.Normal:
-                    MoveDiraction = MovesDiraction.Inverted;
+                    GameState.MoveDiraction = MovesDiraction.Inverted;
                     break;
                 case MovesDiraction.Inverted:
-                    MoveDiraction = MovesDiraction.Normal;
+                    GameState.MoveDiraction = MovesDiraction.Normal;
                     break;
                 default:
                     throw new Exception("Unknow moves diraction!");
@@ -169,12 +205,12 @@ namespace UnoLogic
         }
         private void CheckPlayers()
         {
-            for (int i = 0; i < Players.Count; i++)
+            for (int i = 0; i < GameState.Players.Count; i++)
             {
-                if (Players[i].Hand.Count <= 0)
-                    Players[i].IsInGame = false;
+                if (GameState.Players[i].Hand.Count <= 0)
+                    GameState.Players[i].IsInGame = false;
             }
-            foreach (Player player in Players)
+            foreach (Player player in GameState.Players)
             {
                 if (player.Hand.Count > 1)
                     player.Uno = false;
@@ -182,92 +218,111 @@ namespace UnoLogic
         }
         private void CheckWinner()
         {
-            int playersInGame = Players.Count(p => p.IsInGame);
+            int playersInGame = GameState.Players.Count(p => p.IsInGame);
 
-            if (!PlayersContainsCardToTurn())
+            if (!PlayersContainsCardToBeat() && GameState.Deck.Count == 0)
             {
-                IsGameOver = true;
-                ResultInfo = "No one has a card to do a turn!";
+                GameState.IsGameOver = true;
+                GameState.ResultInfo = "No one has a card to do a turn! \n Game over!";
             }
             if (playersInGame == 1)
-            {
-                IsGameOver = true;
-                ResultInfo = $"{Players.FirstOrDefault(p => p.IsInGame).Name} loose!";
+            {  
+                GameState.IsGameOver = true;
+                GameState.ResultInfo = $"{GameState.Players.FirstOrDefault(p => p.IsInGame).Name} loose!";
             }
             else if(playersInGame == 0)
             {
-                IsGameOver = true;
-                ResultInfo = "There is a draw";
+                GameState.IsGameOver = true;
+                GameState.ResultInfo = "There is a draw";
             }
             showState();
         }
-        private bool PlayersContainsCardToTurn()
+        private bool PlayersContainsCardToBeat()
         {
-            List<Player> leftPlayers = Players.FindAll(p => p.IsInGame && p.Hand.Count > 0);
+            List<Player> leftPlayers = GameState.Players.FindAll(p => p.IsInGame && p.Hand.Count > 0);
 
             foreach (Player player in leftPlayers)
             {
                 foreach (Card c in player.Hand)
                 {
-                    if(Deck.Count > 0)
-                        if (c.Color == Deck.LastCard.Color || c.Figure == Deck.LastCard.Figure || c.Color == CardColor.Black)
-                            return true;
+                    if (c.Color == GameState.Table.LastCard.Color || 
+                        c.Figure == GameState.Table.LastCard.Figure ||
+                        c.Color == CardColor.Black ||
+                        (c.Color == GameState.ChosedColor && GameState.Table.LastCard.Color == CardColor.Black))
+                        return true;
                 }
             }
-
             return false;
         }
         public void Pass()
         {
+            if (GameState.IsPassUsed) return;
+
             CheckPlayers();
             CheckWinner();
 
             mode = Mode.Pass;
+            passer = GameState.ActivePlayer;
 
-            if(Deck.Count > 0)
+            if(GameState.Deck.Count > 0)
             {
-                ActivePlayer.Hand.Add(Deck.Pull(Deck.Count - 1));
-                ActivePlayer.Hand.Sort();
+                GameState.ActivePlayer.Hand.Add(GameState.Deck.Pull(GameState.Deck.Count - 1));
 
-                if (!Impossible(ActivePlayer.Hand.LastCard))
+                if (!Impossible(GameState.ActivePlayer.Hand.LastCard))
                 {
+                    GameState.ActivePlayer.Hand.Sort();
+                    GameState.IsPassUsed = true;
                     showState();
                     return;
                 }
 
-                GetNewActivePlayer();
+                GameState.ActivePlayer.Hand.Sort();
+                GetNextActivePlayer();
                 showState();
             }
             else
             {
-                GetNewActivePlayer();
+                GetNextActivePlayer();
                 showState();
             }
         }
         public void Bluff()
         {
+            if (GameState.IsBluffed)
+                return;
             Player bluffedPlayer = GetBluffedPlayer();
 
-            Card targetCard = Table[Table.Count - 2];
+            Card targetCard = GameState.Table[GameState.Table.Count - 2];
 
             if (IsBluff(bluffedPlayer, targetCard))
             {
                 mode = Mode.Bluff;
-                if (Deck.Count > 2)
-                    bluffedPlayer.Hand.Add(Deck.Deal(2));
+                bluffer = bluffedPlayer;
+
+                if (GameState.Deck.Count >= 2)
+                    bluffedPlayer.Hand.Add(GameState.Deck.Deal(2));
+                else if (GameState.Deck.Count == 1) 
+                    bluffedPlayer.Hand.Add(GameState.Deck.Deal(1));
+
+                GameState.IsBluffed = true;
                 bluffedPlayer.Hand.Sort();
-                showState();
             }
             else
             {
-                if (Deck.Count > 2)
+                mode = Mode.FakeBluff;
+                fakeBluffer = GameState.ActivePlayer;
+
+                if (GameState.Deck.Count >= 2)
                 {
-                    ActivePlayer.Hand.Add(Deck.Deal(2));
-                    ActivePlayer.Hand.Sort();
+                    fakeBluffer.Hand.Add(GameState.Deck.Deal(2));
                 }
-                GetNewActivePlayer();
-                showState();
+                else if(GameState.Deck.Count == 1)
+                    fakeBluffer.Hand.Add(GameState.Deck.Deal(1));
+
+                fakeBluffer.Hand.Sort();
+                GetNextActivePlayer();
             }
+            showState();
         }
         private bool IsBluff(Player bluffedPlayer, Card targetCard)
         {
@@ -278,21 +333,41 @@ namespace UnoLogic
             }
             return false;
         }
-        private void ClearTable()
+        public void Uno()
         {
-            Table.CutTo(Table.Count - 1);
+            if (GameState.ActivePlayer.Hand.Count == 1)
+            {
+                GameState.ActivePlayer.Uno = true;
+            }
+            foreach (Player player in GameState.Players)
+            {
+                if (player.Hand.Count == 1 && !player.Uno)
+                {
+                    player.Hand.Add(GameState.Deck.Deal(2));
+                }
+            }
         }
         private bool Impossible(Card cardToTurn)
         {
-            return IsGameOver ||
-                !ActivePlayer.Hand.Contains(cardToTurn) ||
-                !IsBeat(cardToTurn, Table.LastCard);
+            return GameState.IsGameOver ||
+                !GameState.ActivePlayer.Hand.Contains(cardToTurn) ||
+                GameState.Players.Count == 0 ||
+                !IsBeat(cardToTurn, GameState.Table.LastCard);
         }
         private bool IsBeat(Card front, Card back)
         {
-           if(Table.LastCard.Color == CardColor.Black)
+            if (GameState.CanBeatSpeciallCard)
+            {
+                if(front.Figure == back.Figure)
+                {
+                    GameState.CanBeatSpeciallCard = false;
+                    return true;
+                }
+                return false;
+            }
+           if(GameState.Table.LastCard.Color == CardColor.Black)
                return front.Color == back.Color ||
-                   front.Color == ChosedColor;
+                   front.Color == GameState.ChosedColor;
 
             return front.Color == back.Color ||
                     front.Figure == back.Figure ||
@@ -300,106 +375,108 @@ namespace UnoLogic
         }
         private Player WhoFirst()
         {
-            return Players[0];
+            return GameState.Players[0];
         }
         private Card GetFirstCard()
         {
-            Card card = Deck.Pull(Deck.Count - 1);
+            Card card = GameState.Deck.Pull(GameState.Deck.Count - 1);
 
             if (card.Color == CardColor.Black)
             {
-                int randomCardNum = rnd.Next(0, Deck.Count - 1);
+                int randomCardNum = rnd.Next(0, GameState.Deck.Count - 1);
 
-                Card randomCard = Deck[randomCardNum];
+                Card randomCard = GameState.Deck[randomCardNum];
                 Card temp = randomCard;
-                Deck[randomCardNum] = card;
+                GameState.Deck[randomCardNum] = card;
                 card = temp;
 
                 if (card.Color == CardColor.Black)
                 {
-                    Deck.Add(card);
+                    GameState.Deck.Add(card);
                     GetFirstCard();
                 }
             }
             return card;
         }
-        private void GetNewActivePlayer()
+        private void GetNextActivePlayer()
         {
-            switch (MoveDiraction)
-            {
-                case MovesDiraction.Normal:
-                    ActivePlayer = NextPlayer(ActivePlayer);
-                    break;
-                case MovesDiraction.Inverted:
-                    ActivePlayer = PreviousPlayer(ActivePlayer);
-                    break;
-                default:
-                    throw new Exception("We can't find new player!");
-            }
+            GameState.ActivePlayer = GetNextPlayer(GameState.ActivePlayer);
         }
         private Player GetBluffedPlayer()
         {
             Player bluffedPlayer;
-            switch (MoveDiraction)
+
+            if (GameState.Table.LastCard.Figure == CardFigure.SquadCards)
+                bluffedPlayer = GetPreviousPlayer(GetPreviousPlayer(GameState.ActivePlayer));
+            else
+                bluffedPlayer = GetPreviousPlayer(GameState.ActivePlayer);
+
+            return bluffedPlayer;
+        }
+        private Player GetNextPlayer(Player player)
+        {
+            switch (GameState.MoveDiraction)
             {
                 case MovesDiraction.Normal:
-                    if (Table.LastCard.Figure == CardFigure.SquadCards)
-                        bluffedPlayer = PreviousPlayer(PreviousPlayer(ActivePlayer));
-                    else bluffedPlayer = PreviousPlayer(ActivePlayer);
+                    player = NextPlayer(player);
                     break;
                 case MovesDiraction.Inverted:
-                    if (Table.LastCard.Figure == CardFigure.SquadCards)
-                        bluffedPlayer = NextPlayer(NextPlayer(ActivePlayer));
-                    else bluffedPlayer = PreviousPlayer(ActivePlayer);
+                    player = PreviousPlayer(player);
                     break;
                 default:
-                    throw new Exception("Moves mode isn't found");
+                    throw new Exception("We can't find new player!");
             }
-            return bluffedPlayer;
+
+            return player;
+        }
+        private Player GetPreviousPlayer(Player player)
+        {
+            switch (GameState.MoveDiraction)
+            {
+                case MovesDiraction.Normal:
+                    player = PreviousPlayer(player);
+                    break;
+                case MovesDiraction.Inverted:
+                    player = NextPlayer(player);
+                    break;
+                default:
+                    throw new Exception("We can't find new player!");
+            }
+
+            return player;
         }
         private Player NextPlayer(Player player)
         {
-            Player applicant = Players[Players.Count - 1] == player ? Players[0] : Players[Players.IndexOf(player) + 1];
+            Player applicant = GameState.Players[GameState.Players.Count - 1] == player ? GameState.Players[0] : GameState.Players[GameState.Players.IndexOf(player) + 1];
             if (!applicant.IsInGame) return NextPlayer(applicant);
             return applicant;
         }
         private Player PreviousPlayer(Player player)
         {
-            Player applicant = Players[0] == player ? Players[Players.Count - 1] : Players[Players.IndexOf(player) - 1];
+            Player applicant = GameState.Players[0] == player ? GameState.Players[GameState.Players.Count - 1] : GameState.Players[GameState.Players.IndexOf(player) - 1];
             if (!applicant.IsInGame) return PreviousPlayer(applicant);
             return applicant;
         }
-        private string GetBlufferName()
-        {
-            switch (MoveDiraction)
-            {
-                case MovesDiraction.Normal:
-                    return PreviousPlayer(PreviousPlayer(ActivePlayer)).Name;
-                case MovesDiraction.Inverted:
-                    return NextPlayer(NextPlayer(ActivePlayer)).Name;
-                default:
-                    throw new Exception("Unknown game mode!");
-            }
-        }
-        private string GetPasserName()
-        {
-            switch (MoveDiraction)
-            {
-                case MovesDiraction.Normal:
-                    return PreviousPlayer(ActivePlayer).Name;
-                case MovesDiraction.Inverted:
-                    return NextPlayer(ActivePlayer).Name;
-                default:
-                    throw new Exception("Unknnown game mode!");
-            }
-        }
         private void SerializeGame()
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(this.GetType());
+            XmlSerializer xmlSerializer = new XmlSerializer(GameState.GetType());
 
             using (FileStream fs = new FileStream("Game.xml", FileMode.Create))
             {
-                xmlSerializer.Serialize(fs, this);
+                xmlSerializer.Serialize(fs, GameState);
+            }
+        }
+        private void DeserializeGame()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(GameState.GetType());
+
+            using (FileStream fs = new FileStream("Game.xml", FileMode.OpenOrCreate))
+            {
+                UnoData state = xmlSerializer.Deserialize(fs) as UnoData;
+                if(state != null)
+                {
+                    GameState = state;
+                }
             }
         }
     }

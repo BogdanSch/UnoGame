@@ -1,6 +1,6 @@
 ﻿namespace UnoForm
 {
-    partial class ChooseColorForm
+    partial class PickColorForm
     {
         /// <summary>
         /// Required designer variable.
@@ -92,6 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(369, 334);
             this.Controls.Add(this.lHint);
             this.Controls.Add(this.pBlue);

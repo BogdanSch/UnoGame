@@ -13,9 +13,9 @@ namespace UnoForm
 {
     public partial class GameForm : Form
     {
-        GraphicCard ActiveCard;
+        private GraphicCard ActiveCard;
         public static UnoGame Game;
-        Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
+        private Dictionary<PictureBox, GraphicCard> CardsPictures = new Dictionary<PictureBox, GraphicCard>();
 
         public GameForm()
         {
@@ -39,8 +39,8 @@ namespace UnoForm
             };
 
             Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
-            Game.Deck = new GraphicCardSet(pDeck);
-            Game.Table = new GraphicCardSet(pTable);
+            Game.GameState.Deck = new GraphicCardSet(pDeck);
+            Game.GameState.Table = new GraphicCardSet(pTable);
             Game.Prepare();
             BindPictureBoxes();
             Game.Deal();
@@ -49,7 +49,7 @@ namespace UnoForm
         {
             CardColor targetColor;
 
-            ChooseColorForm form = new ChooseColorForm();
+            PickColorForm form = new PickColorForm();
             form.ShowDialog();
 
             targetColor = form.ChosedColor;
@@ -60,24 +60,30 @@ namespace UnoForm
         }
         private void ShowState()
         {
-            ShowOrHide(Game.Table, true);
-            ShowOrHide(Game.Deck, false);
-            foreach (Player player in Game.Players)
+            ShowCards(Game.GameState.Table, true);
+            ShowCards(Game.GameState.Deck, false);
+
+            foreach (Player player in Game.GameState.Players)
             {
-                ShowOrHide(player.Hand, player == Game.ActivePlayer);
+                ShowCards(player.Hand, player == Game.GameState.ActivePlayer);
             }
-            if (Game.IsGameOver) 
+            if (Game.GameState.IsGameOver) 
             {
-                lInfo.Text = $"{Game.ResultInfo}";
+                lInfo.Text = $"{Game.GameState.ResultInfo}";
+                foreach (Player player in Game.GameState.Players)
+                {
+                    ShowCards(player.Hand, true);
+                }
                 return;
             }
-            lInfo.Text = $"{Game.ResultInfo}... {Game.StateInfo}";
+            lInfo.Text = $"{Game.GameState.ResultInfo}... {Game.StateInfo}";
 
             string action = Game.GetPossibleActions();
 
-            bBluff.Enabled = action.Contains("Bluff") && !Game.IsGameOver;
+            bPass.Enabled = !Game.GameState.IsPassUsed && !Game.GameState.IsGameOver;
+            bBluff.Enabled = action.Contains("Bluff") && !Game.GameState.IsGameOver && !Game.GameState.IsBluffed;
         }
-        private void ShowOrHide(CardSet set, bool isOpen)
+        private void ShowCards(CardSet set, bool isOpen)
         {
             GraphicCardSet gSet = set as GraphicCardSet;
 
@@ -91,7 +97,7 @@ namespace UnoForm
         }
         private void BindPictureBoxes()
         {
-            foreach (var card in Game.Deck)
+            foreach (var card in Game.GameState.Deck)
             {
                 GraphicCard gCard = card as GraphicCard;
                 if (gCard != null)
@@ -146,6 +152,23 @@ namespace UnoForm
         private void UnoGameForm_Closing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+        private void GameForm_ClientSizeChanged(object sender, EventArgs e)
+        {
+            GraphicCardSet gDeck = Game.GameState.Deck as GraphicCardSet;
+            GraphicCardSet gTable = Game.GameState.Table as GraphicCardSet;
+
+            if (gDeck != null & gTable != null)
+            {
+                gDeck.Draw();
+                gTable.Draw();
+            }
+            foreach (Player player in Game.GameState.Players)
+            {
+                GraphicCardSet gSet = player.Hand as GraphicCardSet;
+                if (gSet != null)
+                    gSet.Draw();
+            }
         }
     }
 }
