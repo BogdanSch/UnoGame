@@ -124,7 +124,6 @@ namespace UnoLogic
                 CheckWinner();
 
                 showState();
-
                 SerializeGame();
             }
         }
