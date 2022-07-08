@@ -67,7 +67,8 @@ namespace UnoForm
             // 
             this.pPlr1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pPlr1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pPlr1.Location = new System.Drawing.Point(3, 343);
+            this.pPlr1.Location = new System.Drawing.Point(3, 456);
+            this.pPlr1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pPlr1.Name = "pPlr1";
             this.pPlr1.Size = new System.Drawing.Size(323, 165);
             this.pPlr1.TabIndex = 1;
@@ -76,7 +77,8 @@ namespace UnoForm
             // 
             this.pPlr4.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pPlr4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pPlr4.Location = new System.Drawing.Point(3, 3);
+            this.pPlr4.Location = new System.Drawing.Point(3, 4);
+            this.pPlr4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pPlr4.Name = "pPlr4";
             this.pPlr4.Size = new System.Drawing.Size(323, 164);
             this.pPlr4.TabIndex = 2;
@@ -102,7 +104,8 @@ namespace UnoForm
             // pDeck
             // 
             this.pDeck.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pDeck.Location = new System.Drawing.Point(3, 173);
+            this.pDeck.Location = new System.Drawing.Point(3, 230);
+            this.pDeck.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pDeck.Name = "pDeck";
             this.pDeck.Size = new System.Drawing.Size(323, 164);
             this.pDeck.TabIndex = 1;
@@ -166,6 +169,7 @@ namespace UnoForm
             this.tableLayoutPanel.Controls.Add(this.ToolsLayout, 2, 1);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 3;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -190,7 +194,7 @@ namespace UnoForm
             this.lHintColor.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lHintColor.Location = new System.Drawing.Point(57, 6);
             this.lHintColor.Name = "lHintColor";
-            this.lHintColor.Size = new System.Drawing.Size(117, 20);
+            this.lHintColor.Size = new System.Drawing.Size(150, 25);
             this.lHintColor.TabIndex = 1;
             this.lHintColor.Text = "Chosed color is :";
             // 
@@ -199,7 +203,7 @@ namespace UnoForm
             this.picColor.BackColor = System.Drawing.SystemColors.Control;
             this.picColor.Location = new System.Drawing.Point(57, 29);
             this.picColor.Name = "picColor";
-            this.picColor.Size = new System.Drawing.Size(112, 103);
+            this.picColor.Size = new System.Drawing.Size(128, 137);
             this.picColor.TabIndex = 0;
             this.picColor.TabStop = false;
             // 
@@ -242,13 +246,14 @@ namespace UnoForm
             // 
             // GameForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(904, 511);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.pbActiveCard);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "GameForm";
             this.Text = "Uno Game";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnoGameForm_Closing);
