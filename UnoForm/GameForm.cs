@@ -28,14 +28,14 @@ namespace UnoForm
         {
             List<Player> players = new List<Player>()
             {
-                //new Player(StartUpForm.playersNames[0], new GraphicCardSet(pPlr1)),
-                //new Player(StartUpForm.playersNames[1], new GraphicCardSet(pPlr2)),
-                //new Player(StartUpForm.playersNames[2], new GraphicCardSet(pPlr3)),
-                //new Player(StartUpForm.playersNames[3], new GraphicCardSet(pPlr4)),
-                new Player("Bogdan", new GraphicCardSet(pPlr1)),
-                new Player("Igor", new GraphicCardSet(pPlr2)),
-                new Player("Alex", new GraphicCardSet(pPlr3)),
-                new Player("Yana", new GraphicCardSet(pPlr4)),
+                new Player(StartUpForm.playersNames[0], new GraphicCardSet(pPlr1)),
+                new Player(StartUpForm.playersNames[1], new GraphicCardSet(pPlr2)),
+                new Player(StartUpForm.playersNames[2], new GraphicCardSet(pPlr3)),
+                new Player(StartUpForm.playersNames[3], new GraphicCardSet(pPlr4)),
+                //new Player("Bogdan", new GraphicCardSet(pPlr1)),
+                //new Player("Igor", new GraphicCardSet(pPlr2)),
+                //new Player("Alex", new GraphicCardSet(pPlr3)),
+                //new Player("Yana", new GraphicCardSet(pPlr4)),
             };
 
             Game = new UnoLogic.UnoGame(players, ShowState, ChangeColor);
