@@ -147,11 +147,9 @@ namespace UnoLogic
                         GetNextActivePlayer();
 
                         if (GameState.Deck.Count < 2)
-                        {
                             GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
-                            return;
-                        }
-                        GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(2));
+                        else
+                            GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(2));
                     }
                     break;
                 case CardFigure.ColorSwitcher:
@@ -165,11 +163,9 @@ namespace UnoLogic
                             return;
                         GetNextActivePlayer();
                         if(GameState.Deck.Count < 4)
-                        {
                             GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(GameState.Deck.Count));
-                            return;
-                        }
-                        GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(4));
+                        else
+                            GameState.ActivePlayer.Hand.Add(GameState.Deck.Deal(4));
                     }
                     break;
             }
@@ -224,10 +220,10 @@ namespace UnoLogic
                 GameState.IsGameOver = true;
                 GameState.ResultInfo = "No one has a card to do a turn! \n Game over!";
             }
-            if (playersInGame == 1)
+            else if (playersInGame == 1)
             {  
                 GameState.IsGameOver = true;
-                GameState.ResultInfo = $"{GameState.Players.FirstOrDefault(p => p.IsInGame).Name} loose!";
+                GameState.ResultInfo = $"{GameState.Players.FirstOrDefault(p => p.IsInGame).Name}'s loose!";
             }
             else if(playersInGame == 0)
             {
@@ -300,7 +296,7 @@ namespace UnoLogic
 
                 if (GameState.Deck.Count >= 2)
                     bluffedPlayer.Hand.Add(GameState.Deck.Deal(2));
-                else if (GameState.Deck.Count == 1) 
+                else
                     bluffedPlayer.Hand.Add(GameState.Deck.Deal(1));
 
                 GameState.IsBluffed = true;
@@ -315,7 +311,7 @@ namespace UnoLogic
                 {
                     fakeBluffer.Hand.Add(GameState.Deck.Deal(2));
                 }
-                else if(GameState.Deck.Count == 1)
+                else
                     fakeBluffer.Hand.Add(GameState.Deck.Deal(1));
 
                 fakeBluffer.Hand.Sort();
