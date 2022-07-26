@@ -102,7 +102,6 @@ namespace UnoLogic
         {
             GameState.Table.CutTo(GameState.Table.Count - 1);
         }
-
         public void Turn(Card cardToTurn)
         {
             if (!Impossible(cardToTurn))
@@ -200,7 +199,7 @@ namespace UnoLogic
                     GameState.MoveDiraction = MovesDiraction.Normal;
                     break;
                 default:
-                    throw new Exception("Unknow moves diraction!");
+                    throw new Exception("Unknow moves node!");
             }
         }
         private void CheckPlayers()

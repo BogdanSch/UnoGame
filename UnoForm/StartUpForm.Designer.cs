@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpForm));
             this.lHint = new System.Windows.Forms.Label();
             this.bPlay = new System.Windows.Forms.Button();
             this.tPlayer1 = new System.Windows.Forms.TextBox();
@@ -146,11 +147,12 @@
             this.Controls.Add(this.bPlay);
             this.Controls.Add(this.lHint);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "StartUpForm";
-            this.ShowIcon = false;
-            this.Text = "StartUpForm";
+            this.Text = "Start";
             this.ResumeLayout(false);
             this.PerformLayout();
 
